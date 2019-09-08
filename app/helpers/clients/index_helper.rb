@@ -1,0 +1,2 @@
+module Clients::IndexHelper
+end
