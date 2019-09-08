@@ -3,6 +3,8 @@ require 'rails_helper'
 RSpec.describe Clients::IndexController, type: :controller do
 
   describe "GET #index" do
+    sign_in_client
+
     before { get :index }
 
     it "returns http success" do
