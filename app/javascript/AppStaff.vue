@@ -1,20 +1,29 @@
-<template>
-  <div id="app">
-    <p>{{ message }}</p>
-  </div>
+<template lang="pug">
+  div#app
+    NavBar(:user="user")
+    p {{ message }}
 </template>
 
 <script>
+import NavBar from './app_staff/components/AppNavBar';
+
 export default {
+  components: {
+    NavBar
+  },
+
   data: function () {
     return {
-      message: "Hello Staff!"
-    }
-  }
+      message: "Hello Staff!",
+      user: {
+        name: 'UserName',
+      },
+    };
+  },
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 p {
   font-size: 2em;
   text-align: center;
