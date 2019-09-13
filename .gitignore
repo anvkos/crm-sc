@@ -32,3 +32,5 @@ yarn-debug.log*
 
 .env
 coverage/
+
+.wakatime-project
