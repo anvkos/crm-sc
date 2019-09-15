@@ -3,9 +3,11 @@
     h5.my-0.mr-md-auto.font-weight-normal
       a.logo.py-2(href="/") Sevice Center
     nav.my-2.my-md-0.mr-md-3
-      a.p-2.text-dark(href="#") Clients
-      a.p-2.text-dark(href="#") {{ user.name }}
-    a.btn.btn-outline-primary(href="#") Sign out
+      ul.nav
+        li.nav-item
+          a.p-2.nav-link(href="#") Clients
+    span.p-2.mr-2.text-dark(v-if="user") {{ user.name }}
+    a.btn.btn-outline-primary(@click="signOut" href="#") Sign out
 </template>
 
 <script>
@@ -13,9 +15,14 @@ export default {
   props: {
     user: {
       type: Object,
-      required: true,
     },
   },
+
+  methods: {
+    signOut() {
+      this.$emit('user-signout', {});
+    }
+  }
 };
 </script>
 
