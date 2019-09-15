@@ -1,6 +1,7 @@
 /* eslint no-console: 0 */
 
 import Vue from 'vue'
+import '../stylesheets/staff'
 import App from '../AppStaff.vue'
 
 document.addEventListener('DOMContentLoaded', () => {

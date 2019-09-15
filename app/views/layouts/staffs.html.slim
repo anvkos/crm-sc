@@ -1,0 +1,13 @@
+doctype html
+html
+  head
+    title Crm | Staff
+    = csrf_meta_tags
+    = csp_meta_tag
+
+    = stylesheet_pack_tag 'staffs', media: 'all'
+    = javascript_pack_tag 'staffs'
+
+  body>
+    div class="container"
+      = yield
