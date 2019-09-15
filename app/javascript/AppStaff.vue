@@ -1,11 +1,11 @@
 <template lang="pug">
   div#app
-    NavBar(:user="user")
-    p {{ message }}
+    NavBar(:user="user" @user-signout="signOut")
 </template>
 
 <script>
 import NavBar from './app_staff/components/AppNavBar';
+import { fetchUser, signOut } from './app_staff/api/auth';
 
 export default {
   components: {
@@ -14,13 +14,32 @@ export default {
 
   data: function () {
     return {
-      message: "Hello Staff!",
-      user: {
-        name: 'UserName',
-      },
+      user: null,
     };
   },
-}
+
+  created() {
+    this.loadUser();
+  },
+
+  methods: {
+    loadUser() {
+      fetchUser()
+        .then(data => {
+          this.user = data.user;
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+
+    signOut() {
+      signOut().then(data => {
+        window.location.href = "/";
+      });
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
