@@ -1,6 +1,8 @@
 import axios from 'axios';
 import config from './config';
 
+const transformFromApi = (data) => ({id: data.id, modelType: data.type, ...data.attributes })
+
 export default function request({
   method,
   endpoint,
@@ -21,5 +23,5 @@ export default function request({
       timeout: 5000,
       headers: { ...config.headers, ...headers },
     })
-    .then(response => response.data);
+    .then(response => transformFromApi(response.data.data));
 }
