@@ -4,4 +4,8 @@ class Staffs::IndexController < ApplicationController
 
   def index
   end
+
+  def user
+    render json: StaffSerializer.new(current_user)
+  end
 end
