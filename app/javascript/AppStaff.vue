@@ -1,15 +1,18 @@
 <template lang="pug">
   div#app
     NavBar(:user="user" @user-signout="signOut")
+    Dashboard
 </template>
 
 <script>
 import NavBar from './app_staff/components/AppNavBar';
 import { fetchUser, signOut } from './app_staff/api/auth';
+import Dashboard from './app_staff/components/AppDashboard';
 
 export default {
   components: {
-    NavBar
+    NavBar,
+    Dashboard,
   },
 
   data: function () {
@@ -25,8 +28,8 @@ export default {
   methods: {
     loadUser() {
       fetchUser()
-        .then(data => {
-          this.user = data.user;
+        .then(user => {
+          this.user = user;
         })
         .catch(error => {
           console.log(error);
