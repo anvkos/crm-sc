@@ -34,6 +34,9 @@ export default {
 
 <style lang="scss" scoped>
   table {
+    th, td {
+      white-space: nowrap;
+    }
     tr:last-child {
       border-bottom: 1px solid #dee2e6;
     }

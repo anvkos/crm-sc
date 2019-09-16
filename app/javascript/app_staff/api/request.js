@@ -1,7 +1,14 @@
 import axios from 'axios';
 import config from './config';
 
-const transformFromApi = (data) => ({id: data.id, modelType: data.type, ...data.attributes })
+const transformFromApi = (data) => {
+  if (Array.isArray(data) === true) {
+    return data.map(item => transformApiItem(item));
+  }
+  return transformApiItem(data);
+}
+
+const transformApiItem = (data) => ({id: data.id, modelType: data.type, ...data.attributes })
 
 export default function request({
   method,
