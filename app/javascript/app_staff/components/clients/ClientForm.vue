@@ -21,6 +21,7 @@
 </template>
 
 <script>
+import Api from '../../api';
 
 const MINIMUM_LENGTH = 5;
 const ERRORS = {
@@ -52,6 +53,23 @@ export default {
       if (this.isFormValid() === false) {
         return false;
       }
+      Api.clients.create(this.form).then(data => {
+        this.onCreated(data);
+        this.resetForm();
+      }).catch(error => {
+        const errors = error.response.data.errors;
+        Object.keys(errors).forEach(key => {
+          this.errors[key] = errors[key];
+        })
+      })
+    },
+
+    onCreated(client) {
+      this.$emit('client-created', client);
+    },
+
+    resetForm() {
+      Object.keys(this.form).forEach(key => this.form[key] = null);
     },
 
     isFormValid() {

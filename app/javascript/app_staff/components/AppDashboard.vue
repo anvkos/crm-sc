@@ -6,7 +6,7 @@
       div.col
         ClientsList(:clients="clients")
       div.col
-        ClientForm
+        ClientForm(@client-created="onClientCreated")
 </template>
 
 <script>
@@ -38,7 +38,11 @@ export default {
         this.clients = data;
         this.loading = false;
       });
-    }
+    },
+
+    onClientCreated(client) {
+      this.clients.push(client);
+    },
   },
 };
 </script>
