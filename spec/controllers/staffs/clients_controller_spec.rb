@@ -22,6 +22,28 @@ RSpec.describe Staffs::ClientsController, type: :controller do
     end
   end
 
+  describe 'POST #verify_uniqueness' do
+    sign_in_staff
+    let(:params) { attributes_for(:client).merge(format: :json) }
+
+    context 'when client unique' do
+      it 'returns 200 status code' do
+        post :verify_uniqueness, params: params
+        expect(response.status).to be 200
+      end
+    end
+
+    context 'when client unique' do
+      let(:client) { create(:client) }
+      let(:invalid_params) { attributes_for(:client, phone: client.phone, email: client.email).merge(format: :json) }
+
+      it 'returns 422 status code' do
+        post :verify_uniqueness, params: invalid_params
+        expect(response).to have_http_status(:unprocessable_entity)
+      end
+    end
+  end
+
   describe 'POST #create' do
     let(:params) do
       {

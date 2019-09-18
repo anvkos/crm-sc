@@ -6,7 +6,11 @@ Rails.application.routes.draw do
     }
     get '/', to: 'index#index', as: :root
     get '/user', to: 'index#user', as: :user
-    resources :clients
+    resources :clients do
+      collection do
+        post 'verify_uniqueness'
+      end
+    end
   end
   namespace :clients do
     devise_for :clients, path: '', controllers: {
