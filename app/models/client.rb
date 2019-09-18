@@ -7,5 +7,9 @@ class Client < ApplicationRecord
   validates :fullname, presence: true, length: { minimum: 5 }
   validates :phone, presence: true, numericality: { only_integer: true }
   validates :phone, uniqueness: true
-  validates :email, uniqueness: { case_sensitive: false }
+
+  def valid_uniqueness?
+    self.valid?
+    self.errors[:email].blank? && self.errors[:phone].blank?
+  end
 end
