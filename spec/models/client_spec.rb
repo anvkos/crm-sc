@@ -7,5 +7,16 @@ RSpec.describe Client, type: :model do
 
     it { is_expected.to validate_presence_of(:phone) }
     it { is_expected.to validate_numericality_of(:phone).only_integer }
+    describe 'phone uniqueness' do
+      subject { build(:client) }
+
+      it { is_expected.to validate_uniqueness_of(:phone) }
+    end
+
+    describe 'email uniqueness' do
+      subject { build(:client) }
+
+      it { is_expected.to validate_uniqueness_of(:email).case_insensitive }
+    end
   end
 end

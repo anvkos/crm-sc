@@ -6,4 +6,6 @@ class Client < ApplicationRecord
 
   validates :fullname, presence: true, length: { minimum: 5 }
   validates :phone, presence: true, numericality: { only_integer: true }
+  validates :phone, uniqueness: true
+  validates :email, uniqueness: { case_sensitive: false }
 end
