@@ -7,11 +7,11 @@ class Staffs::ClientsController < ApplicationController
   end
 
   def create
-    params = { password: SecureRandom.hex(5) }.merge(client_params)
-    @client = Client.new(params)
+    client_params = { password: SecureRandom.hex(5) }.merge(creation_params)
+    @client = Client.new(client_params)
     if @client.valid?
       @client.save
-      render json: ClientSerializer.new(@client)
+      render json: ClientSerializer.new(@client), status: :created
     else
       respond_with_validation_error(@client)
     end
@@ -19,7 +19,7 @@ class Staffs::ClientsController < ApplicationController
 
   private
 
-  def client_params
+  def creation_params
     params.permit(:fullname, :phone, :email)
   end
 
