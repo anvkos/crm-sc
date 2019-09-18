@@ -17,7 +17,7 @@
           span(v-for="error in errors.email")  {{ error }}
         input.form-control(type="text" v-model="form.email" @blur='validateEmail')
       hr.mb-2
-      button.btn.btn-success.btn-block(type="submit") Create
+      button.btn.btn-success.btn-block(type="submit" :disabled="disabled") Create
 </template>
 
 <script>
@@ -39,28 +39,43 @@ export default {
         phone: null,
         email: null,
       },
-      isValidate: false,
       errors: {
         fullname: [],
         phone: [],
         email: [],
-      }
+      },
+      isValid: false,
+      isValidUniqueness: false,
     };
+  },
+
+  computed: {
+    disabled() {
+      return this.isValid === false && this.isValidUniqueness === false;
+    },
+  },
+
+  watch: {
+    form: {
+      deep: true,
+      handler() {
+        this.formFilled();
+      },
+    },
+    isValid(value) {
+      if (value === true) {
+        this.verifyUniqueness();
+      }
+    },
   },
 
   methods: {
     onSubmit() {
-      if (this.isFormValid() === false) {
-        return false;
-      }
       Api.clients.create(this.form).then(data => {
         this.onCreated(data);
         this.resetForm();
       }).catch(error => {
-        const errors = error.response.data.errors;
-        Object.keys(errors).forEach(key => {
-          this.errors[key] = errors[key];
-        })
+        this.fillErrors(error.response.data.errors);
       })
     },
 
@@ -69,15 +84,36 @@ export default {
     },
 
     resetForm() {
+      this.isValid = false;
+      this.isValidUniqueness = false;
       Object.keys(this.form).forEach(key => this.form[key] = null);
     },
 
-    isFormValid() {
+    formFilled() {
+      const filled = Object.keys(this.form).every(key => this.form[key] && this.form[key].length > 0);
+      if (filled) {
+        this.validate();
+      }
+    },
+
+    validate() {
       this.clearErrors();
       this.validateFullname();
       this.validatePhone();
       this.validateEmail();
-      return this.hasErrors() ? false : true;
+      if (this.hasErrors() == false) {
+        this.isValid = true;
+      };
+    },
+
+    verifyUniqueness() {
+      this.isValidUniqueness = false;
+      Api.clients.verifyUniqueness(this.form).then(data => {
+        this.isValidUniqueness = true;
+      }).catch(error => {
+        this.isValid = false;
+        this.fillErrors(error.response.data.errors);
+      });
     },
 
     hasErrors() {
@@ -120,6 +156,12 @@ export default {
       if (this.isEmail(email) === false) {
         this.errors.email.push(ERRORS.email);
       }
+    },
+
+    fillErrors(errors) {
+      Object.keys(errors).forEach(key => {
+          this.errors[key] = errors[key];
+      });
     },
 
     isBlank(value) {
