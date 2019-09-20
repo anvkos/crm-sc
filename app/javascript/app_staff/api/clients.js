@@ -8,13 +8,13 @@ export const fetchAll = (params) => request({
 export const create = (params) => request({
   endpoint: '/clients',
   method: 'post',
-  data: params,
+  data: { client: params },
 });
 
 export const verifyUniqueness = (params) => request({
   endpoint: '/clients/verify_uniqueness',
   method: 'post',
-  data: params,
+  data: { client: params },
 });
 
 export default {

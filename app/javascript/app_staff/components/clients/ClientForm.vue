@@ -34,11 +34,7 @@ const ERRORS = {
 export default {
   data() {
     return {
-      form: {
-        fullname: null,
-        phone: null,
-        email: null,
-      },
+      form: {},
       errors: {
         fullname: [],
         phone: [],
@@ -86,7 +82,7 @@ export default {
     resetForm() {
       this.isValid = false;
       this.isValidUniqueness = false;
-      Object.keys(this.form).forEach(key => this.form[key] = null);
+      this.form = {};
     },
 
     formFilled() {
@@ -179,7 +175,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss" scoped>
-
-</style>
