@@ -2,7 +2,7 @@ class Staffs::ClientsController < ApplicationController
   before_action :authenticate_staffs_staff!
 
   def index
-    @clients = Client.all;
+    @clients = Client.all
     render json: ClientSerializer.new(@clients)
   end
 
@@ -29,7 +29,7 @@ class Staffs::ClientsController < ApplicationController
   private
 
   def creation_params
-    params.permit(:fullname, :phone, :email)
+    params.require(:client).permit(:fullname, :phone, :email)
   end
 
   def respond_with_validation_error(model, errors = nil)

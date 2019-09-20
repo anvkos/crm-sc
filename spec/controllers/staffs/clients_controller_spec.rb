@@ -24,7 +24,12 @@ RSpec.describe Staffs::ClientsController, type: :controller do
 
   describe 'POST #verify_uniqueness' do
     sign_in_staff
-    let(:params) { attributes_for(:client).merge(format: :json) }
+    let(:params) do
+      {
+        client: attributes_for(:client),
+        format: :json
+      }
+    end
 
     context 'when client unique' do
       it 'returns 200 status code' do
@@ -35,7 +40,12 @@ RSpec.describe Staffs::ClientsController, type: :controller do
 
     context 'when client unique' do
       let(:client) { create(:client) }
-      let(:invalid_params) { attributes_for(:client, phone: client.phone, email: client.email).merge(format: :json) }
+      let(:invalid_params) do
+        {
+          client: attributes_for(:client, phone: client.phone, email: client.email),
+          format: :json
+        }
+      end
 
       it 'returns 422 status code' do
         post :verify_uniqueness, params: invalid_params
@@ -47,9 +57,11 @@ RSpec.describe Staffs::ClientsController, type: :controller do
   describe 'POST #create' do
     let(:params) do
       {
-        fullname: 'full_name',
-        email: 'test@test.com',
-        phone: 7_888_999_77_89,
+        client: {
+          fullname: 'full_name',
+          email: 'test@test.com',
+          phone: 7_888_999_77_89,
+        },
         format: :json
       }
     end
@@ -76,9 +88,11 @@ RSpec.describe Staffs::ClientsController, type: :controller do
       context 'with invalid attributes' do
         let(:invalid_params) do
           {
-            fullname: nil,
-            email: nil,
-            phone: nil,
+            client: {
+              fullname: nil,
+              email: nil,
+              phone: nil,
+            },
             format: :json
           }
         end
