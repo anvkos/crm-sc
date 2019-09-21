@@ -11,7 +11,7 @@ import {
   QDrawer,
   QPageContainer,
   QPage,
-  QBtn
+  QBtn,
 } from 'quasar'
 import App from '../AppStaff.vue'
 
@@ -23,7 +23,7 @@ Vue.use(Quasar, {
     QDrawer,
     QPageContainer,
     QPage,
-    QBtn
+    QBtn,
   },
   directives: {
   },
