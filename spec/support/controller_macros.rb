@@ -1,6 +1,6 @@
 module ControllerMacros
   def sign_in_staff
-    before(:each) do
+    before do
       @request.env["devise.mapping"] = Devise.mappings[:staff]
       staff = FactoryBot.create(:staff)
       sign_in staff
@@ -8,7 +8,7 @@ module ControllerMacros
   end
 
   def sign_in_client
-    before(:each) do
+    before do
       @request.env["devise.mapping"] = Devise.mappings[:client]
       client = FactoryBot.create(:client)
       sign_in client

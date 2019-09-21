@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   root 'index#index'
   namespace :staffs do
     devise_for :staffs, path: '', controllers: {
-        sessions: 'staffs/sessions'
+      sessions: 'staffs/sessions'
     }
     get '/', to: 'index#index', as: :root
     get '/user', to: 'index#user', as: :user
@@ -14,7 +14,7 @@ Rails.application.routes.draw do
   end
   namespace :clients do
     devise_for :clients, path: '', controllers: {
-        sessions: 'clients/sessions'
+      sessions: 'clients/sessions'
     }
     get '/', to: 'index#index', as: :root
   end

@@ -60,7 +60,7 @@ RSpec.describe Staffs::ClientsController, type: :controller do
         client: {
           fullname: 'full_name',
           email: 'test@test.com',
-          phone: 7_888_999_77_89,
+          phone: 78_889_997_789
         },
         format: :json
       }
@@ -91,7 +91,7 @@ RSpec.describe Staffs::ClientsController, type: :controller do
             client: {
               fullname: nil,
               email: nil,
-              phone: nil,
+              phone: nil
             },
             format: :json
           }

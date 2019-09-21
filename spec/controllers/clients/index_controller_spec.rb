@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe Clients::IndexController, type: :controller do
-
   describe "GET #index" do
     sign_in_client
 
@@ -15,5 +14,4 @@ RSpec.describe Clients::IndexController, type: :controller do
       expect(response).to render_template :index
     end
   end
-
 end

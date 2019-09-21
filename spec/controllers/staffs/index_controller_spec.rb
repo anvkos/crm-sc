@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe Staffs::IndexController, type: :controller do
-
   describe "GET #index" do
     sign_in_staff
     before { get :index }
@@ -14,5 +13,4 @@ RSpec.describe Staffs::IndexController, type: :controller do
       expect(response).to render_template :index
     end
   end
-
 end

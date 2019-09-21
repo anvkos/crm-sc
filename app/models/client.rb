@@ -9,7 +9,7 @@ class Client < ApplicationRecord
   validates :phone, uniqueness: true
 
   def valid_uniqueness?
-    self.valid?
-    self.errors[:email].blank? && self.errors[:phone].blank?
+    valid?
+    errors[:email].blank? && errors[:phone].blank?
   end
 end

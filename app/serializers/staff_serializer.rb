@@ -1,7 +1,5 @@
 class StaffSerializer < ApplicationSerializer
   attributes :email, :name
 
-  attribute :name do |object|
-    object.email
-  end
+  attribute :name, &:email
 end

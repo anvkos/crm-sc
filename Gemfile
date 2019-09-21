@@ -64,3 +64,6 @@ end
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 gem "dotenv-rails", "~> 2.7", :groups => [:development, :test]
+
+gem "rubocop", "~> 0.74.0", require: false
+gem "rubocop-rspec", "~> 1.35", require: false

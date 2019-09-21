@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe IndexController, type: :controller do
-
   describe "GET #index" do
     before { get :index }
 
@@ -13,5 +12,4 @@ RSpec.describe IndexController, type: :controller do
       expect(response).to render_template :index
     end
   end
-
 end

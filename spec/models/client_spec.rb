@@ -31,12 +31,12 @@ RSpec.describe Client, type: :model do
     context 'when returns false' do
       it 'email already exists' do
         client = build(:client, email: another_client.email)
-      expect(client.valid_uniqueness?).to eq false
+        expect(client.valid_uniqueness?).to eq false
       end
 
       it 'phone already exists' do
         client = build(:client, phone: another_client.phone)
-      expect(client.valid_uniqueness?).to eq false
+        expect(client.valid_uniqueness?).to eq false
       end
     end
   end
