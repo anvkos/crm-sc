@@ -11,6 +11,7 @@ Rails.application.routes.draw do
         post 'verify_uniqueness'
       end
     end
+    resources :organizations
   end
   namespace :clients do
     devise_for :clients, path: '', controllers: {
