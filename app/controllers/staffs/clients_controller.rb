@@ -1,6 +1,4 @@
-class Staffs::ClientsController < ApplicationController
-  before_action :authenticate_staffs_staff!
-
+class Staffs::ClientsController < Staffs::BaseController
   def index
     @clients = Client.all
     render json: ClientSerializer.new(@clients)
@@ -30,16 +28,5 @@ class Staffs::ClientsController < ApplicationController
 
   def creation_params
     params.require(:client).permit(:fullname, :phone, :email)
-  end
-
-  def respond_with_validation_error(model, errors = nil)
-    render_error :unprocessable_entity,
-                 message: "Validation failed",
-                 errors: (errors || model.errors)
-  end
-
-  def render_error(status, resource = nil)
-    render status: status,
-           json: (resource || { message: "error" })
   end
 end
