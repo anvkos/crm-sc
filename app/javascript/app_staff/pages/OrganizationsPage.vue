@@ -1,15 +1,19 @@
 <template lang="pug">
   QPage
-    OrganizationsList(:items="organizations")
+    div(class="row")
+      OrganizationsList(:items="organizations" class="col-8")
+      OrganizationForm(class="col-4" @organization-created="onOrganizationCreated")
 </template>
 
 <script>
 import Api from '../api';
 import OrganizationsList from '../components/organizations/OrganizationsList';
+import OrganizationForm from '../components/organizations/OrganizationForm';
 
 export default {
   components: {
     OrganizationsList,
+    OrganizationForm,
   },
 
   data() {
@@ -28,6 +32,10 @@ export default {
       Api.organizations.fetchAll().then(data => {
         this.organizations = data;
       });
+    },
+
+    onOrganizationCreated(organization) {
+      this.organizations.push(organization);
     },
   }
 }

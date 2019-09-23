@@ -5,6 +5,13 @@ export const fetchAll = (params) => request({
   params,
 });
 
+export const create = (params) => request({
+  endpoint: '/organizations',
+  method: 'post',
+  data: { organization: params },
+});
+
 export default {
   fetchAll,
+  create,
 };
