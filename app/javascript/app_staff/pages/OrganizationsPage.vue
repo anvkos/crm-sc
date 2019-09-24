@@ -1,7 +1,7 @@
 <template lang="pug">
   QPage
     div(class="row")
-      OrganizationsList(:items="organizations" class="col-8")
+      OrganizationsList(:items="organizations" class="col-8" @organizations-deleted="onOrganizationDeleted")
       OrganizationForm(class="col-4" @organization-created="onOrganizationCreated")
 </template>
 
@@ -36,6 +36,19 @@ export default {
 
     onOrganizationCreated(organization) {
       this.organizations.push(organization);
+    },
+
+    onOrganizationDeleted(organizationIds) {
+      organizationIds.forEach(id => {
+        Api.organizations.destroy(id).then(data => {
+          this.delete(id);
+        });
+      });
+    },
+
+    delete(id) {
+      const index = this.organizations.findIndex(item => item.id === id);
+      this.organizations.splice(index, 1);
     },
   }
 }
