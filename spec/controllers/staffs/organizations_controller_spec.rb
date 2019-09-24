@@ -92,4 +92,28 @@ RSpec.describe Staffs::OrganizationsController, type: :controller do
       end
     end
   end
+
+  describe 'POST #destroy' do
+    let!(:organization) { create(:organization) }
+
+    context 'when user authenticated' do
+      sign_in_staff
+
+      it 'returns 204 status code' do
+        delete :destroy, params: { id: organization.id }
+        expect(response).to have_http_status(:no_content)
+      end
+
+      it 'delete organization' do
+        expect { delete :destroy, params: { id: organization.id } }.to change(Organization, :count).by(-1)
+      end
+    end
+
+    context 'when user is not unauthorized' do
+      it 'returns 302 status code' do
+        delete :destroy, params: { id: organization.id }
+        expect(response).to have_http_status(:found)
+      end
+    end
+  end
 end

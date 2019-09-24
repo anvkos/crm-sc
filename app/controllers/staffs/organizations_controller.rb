@@ -13,6 +13,12 @@ class Staffs::OrganizationsController < Staffs::BaseController
     end
   end
 
+  def destroy
+    @organization = Organization.find(params[:id])
+    @organization.destroy
+    head :no_content
+  end
+
   private
 
   def organization_params
