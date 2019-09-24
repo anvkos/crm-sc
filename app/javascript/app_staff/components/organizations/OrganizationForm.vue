@@ -14,6 +14,7 @@
         hint="Enter organization name"
         placeholder="Company Ltd."
         :rules="rules.name"
+        lazy-rules
       )
       QSelect(
         v-model="form.kind"
@@ -21,7 +22,8 @@
         :options="kinds"
         label="Type"
         hint="Select organization type"
-        required
+        lazy-rules
+        :rules="rules.kind"
       )
       QInput(
         v-model="form.inn"
@@ -29,6 +31,7 @@
         label="INN *"
         hint="Enter organization INN"
         :rules="rules.inn"
+        lazy-rules
       )
       QInput(
         v-model="form.ogrn"
@@ -36,6 +39,7 @@
         label="OGRN *"
         hint="Enter organization OGRN"
         :rules="rules.ogrn"
+        lazy-rules
       )
       div(class="row q-pa-md q-gutter-md justify-end")
         QBtn(label="Reset" type="reset" color="white" text-color="black")
@@ -49,6 +53,7 @@ import { QForm, QInput, QSelect } from 'quasar';
 
 const ERRORS = {
   required: 'Field is required',
+  select: 'Please select type of organization',
 };
 
 const ORGANIZATION_KINDS = ['ИП', 'ЮЛ'];
@@ -66,6 +71,7 @@ export default {
       kinds: ORGANIZATION_KINDS,
       rules: {
         name: [value => !!value || ERRORS.required],
+        kind: [value => !!value || ERRORS.select],
         inn: [value => !!value || ERRORS.required],
         ogrn: [value => !!value || ERRORS.required],
       }
