@@ -1,6 +1,6 @@
 <template lang="pug">
   div(class="q-pa-md rounded-borders")
-    h6(class="q-my-md") Add Organization
+    h6(class="q-mb-md q-mt-sm") Add Organization
     QForm(
       class="q-gutter-y-md column"
       ref="organizationForm"
@@ -38,8 +38,8 @@
         outlined
         label="OGRN *"
         hint="Enter organization OGRN"
-        :rules="rules.ogrn"
         lazy-rules
+        :rules="rules.ogrn"
       )
       div(class="row q-pa-md q-gutter-md justify-end")
         QBtn(label="Reset" type="reset" color="white" text-color="black")
@@ -51,9 +51,12 @@
 import Api from '../../api';
 import { QForm, QInput, QSelect } from 'quasar';
 
+const MINIMUM_LENGTH = 5;
 const ERRORS = {
   required: 'Field is required',
   select: 'Please select type of organization',
+  only_numbers: 'Must be only numbers.',
+  minumim_length: (min = MINIMUM_LENGTH) => `Must be at least ${min} characters.`,
 };
 
 const ORGANIZATION_KINDS = ['ИП', 'ЮЛ'];
@@ -70,10 +73,21 @@ export default {
       form: {},
       kinds: ORGANIZATION_KINDS,
       rules: {
-        name: [value => !!value || ERRORS.required],
+        name: [
+          value => !!value || ERRORS.required,
+          value => this.isLengthGreatThan(value, 5) || ERRORS.minumim_length(5)
+        ],
         kind: [value => !!value || ERRORS.select],
-        inn: [value => !!value || ERRORS.required],
-        ogrn: [value => !!value || ERRORS.required],
+        inn: [
+          value => !!value || ERRORS.required,
+          value => this.isNumber(value) || ERRORS.only_numbers,
+          value => this.isLengthGreatThan(value, 10) || ERRORS.minumim_length(10)
+        ],
+        ogrn: [
+          value => !!value || ERRORS.required,
+          value => this.isNumber(value) || ERRORS.only_numbers,
+          value => this.isLengthGreatThan(value, 13) || ERRORS.minumim_length(13)
+        ],
       }
     };
   },
@@ -96,6 +110,14 @@ export default {
 
     onCreated(organization) {
       this.$emit('organization-created', organization);
+    },
+
+    isNumber(value) {
+      return Number.isInteger(Number(value));
+    },
+
+    isLengthGreatThan(value, min = MINIMUM_LENGTH) {
+      return value && value.length >= min ? true : false;
     },
   },
 };
