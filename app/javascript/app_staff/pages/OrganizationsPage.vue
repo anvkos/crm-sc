@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import Api from '../api';
+import Api from 'staffApi';
 import OrganizationsList from '../components/organizations/OrganizationsList';
 import OrganizationForm from '../components/organizations/OrganizationForm';
 

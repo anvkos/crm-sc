@@ -45,7 +45,7 @@ export default {
     },
 
     signOut() {
-      this.$emit('user-signout', {});
+      this.$emit('user-signout');
     }
   },
 

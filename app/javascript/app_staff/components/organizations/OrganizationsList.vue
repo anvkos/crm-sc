@@ -1,5 +1,5 @@
 <template lang="pug">
-  div(class="q-pa-md")
+  div.q-pa-md
     QTable(
       title="Organizations"
       :data="items"
@@ -14,7 +14,7 @@
         QTr
           QTd(colspan="100%" class="q-pa-md q-gutter-sm")
             QBtn(label="Delete" size="sm" @click="onDelete")
-            div(class="float-right") {{ selectedNames }}
+            div.float-right {{ selectedNames }}
 
 </template>
 

@@ -12,7 +12,7 @@
 <script>
 import ClientsList from './clients/ClientsList';
 import ClientForm from './clients/ClientForm';
-import Api from '../api';
+import Api from 'staffApi';
 
 export default {
   components: {

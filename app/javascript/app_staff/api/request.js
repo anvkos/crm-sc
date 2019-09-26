@@ -2,9 +2,8 @@ import axios from 'axios';
 import config from './config';
 
 const transformFromApi = (data) => {
-  if (!data) {
-    return data;
-  }
+  if (!data) return data;
+
   if (Array.isArray(data) === true) {
     return data.map(item => transformApiItem(item));
   }

@@ -1,6 +1,6 @@
 <template lang="pug">
-  div(class="q-pa-md rounded-borders")
-    h6(class="q-mb-md q-mt-sm") Add Organization
+  div.q-pa-md.rounded-borders
+    h6.q-mb-md.q-mt-sm Add Organization
     QForm(
       class="q-gutter-y-md column"
       ref="organizationForm"
@@ -41,14 +41,14 @@
         lazy-rules
         :rules="rules.ogrn"
       )
-      div(class="row q-pa-md q-gutter-md justify-end")
+      div.row.q-pa-md.q-gutter-md.justify-end
         QBtn(label="Reset" type="reset" color="white" text-color="black")
         QBtn(label="Save" type="submit" color="secondary")
 
 </template>
 
 <script>
-import Api from '../../api';
+import Api from 'staffApi';
 import { QForm, QInput, QSelect } from 'quasar';
 
 const MINIMUM_LENGTH = 5;

@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import Api from '../../api';
+import Api from 'staffApi';
 
 const MINIMUM_LENGTH = 5;
 const ERRORS = {
