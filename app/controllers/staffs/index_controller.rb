@@ -1,5 +1,4 @@
-class Staffs::IndexController < ApplicationController
-  before_action :authenticate_staffs_staff!
+class Staffs::IndexController < Staffs::BaseController
   layout 'staffs'
 
   def index; end

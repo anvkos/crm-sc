@@ -1,5 +1,5 @@
 class Clients::IndexController < ApplicationController
-  before_action :authenticate_clients_client!
+  before_action :authenticate_client!
 
   def index; end
 end

@@ -29,7 +29,7 @@ RSpec.describe Staffs::OrganizationsController, type: :controller do
       end
 
       it 'redirects to signin' do
-        expect(response).to redirect_to(:new_staffs_staff_session)
+        expect(response).to redirect_to(:new_staff_session)
       end
     end
   end

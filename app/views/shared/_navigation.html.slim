@@ -1,24 +1,24 @@
 div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm"
-  h5 class="my-0 mr-md-auto font-weight-normal" 
+  h5 class="my-0 mr-md-auto font-weight-normal"
     = link_to 'Service Center', root_path
   nav class="my-2 my-md-0 mr-md-3"
     ul class="nav"
-      - if staffs_staff_signed_in?
+      - if staff_signed_in?
         li class="nav-item"
           = link_to 'Staffs', staffs_root_path, class: "nav-link"
         li class="nav-item"
           a class="nav-link disabled" href="#" Hello Staff
         li class="nav-item"
-          = link_to 'Sign out', destroy_staffs_staff_session_path, class: "nav-link"
-      - elsif clients_client_signed_in?
+          = link_to 'Sign out', destroy_staff_session_path, class: "nav-link"
+      - elsif client_signed_in?
         li class="nav-item"
           = link_to 'Clients', clients_root_path, class: "nav-link"
         li class="nav-item"
           a class="nav-link disabled" href="#" Hello Client
         li class="nav-item"
-          = link_to 'Sign out', destroy_clients_client_session_path, class: "nav-link"
-      - else 
+          = link_to 'Sign out', destroy_client_session_path, class: "nav-link"
+      - else
         li class="nav-item"
-          = link_to 'Login as Staff', new_staffs_staff_session_path, class: 'btn btn-outline-primary ml-1'
+          = link_to 'Login as Staff', new_staff_session_path, class: 'btn btn-outline-primary ml-1'
         li class="nav-item"
-          = link_to 'Login as Client', new_clients_client_session_path, class: 'btn btn-outline-success ml-1'
+          = link_to 'Login as Client', new_client_session_path, class: 'btn btn-outline-success ml-1'

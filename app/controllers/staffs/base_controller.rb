@@ -1,5 +1,5 @@
 class Staffs::BaseController < ApplicationController
-  before_action :authenticate_staffs_staff!
+  before_action :authenticate_staff!
 
   protected
 
