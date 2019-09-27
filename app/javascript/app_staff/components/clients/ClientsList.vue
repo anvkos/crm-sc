@@ -1,29 +1,41 @@
 <template lang="pug">
-  div.table-responsive
-    table.table.table-hover
-      caption List of clients
-      thead
-        tr
-          th #
-          th Full name
-          th Phone
-          th Email
-      tbody
-        tr(v-for="client in clients" :key="client.id")
-          td {{ client.id }}
-          td {{ client.fullname }}
-          td {{ client.phone }}
-          td {{ client.email }}
-
+  div.q-pa-md
+    QTable(
+      title="Clients"
+      :data="clients"
+      :columns="columns"
+      row-key="id"
+      :pagination.sync="pagination"
+    )
 </template>
 
 <script>
+import { QTable, QBtn, QTr, QTd } from 'quasar';
+
 export default {
+  components: {
+    QTable,
+  },
+
   props: {
     clients: {
       type: Array,
       required: true,
     }
+  },
+
+  data() {
+    return {
+      columns: [
+        { name: 'id', label: '#',field: 'id', align: 'left', sortable: true },
+        { name: 'fullname', label: 'Full name',field: 'fullname', sortable: true },
+        { name: 'phone', label: 'Phone',field: 'phone', sortable: true },
+        { name: 'email', label: 'Email',field: 'email', sortable: true },
+      ],
+      pagination: {
+        rowsPerPage: 20,
+      },
+    };
   },
 };
 </script>
