@@ -1,37 +1,72 @@
 <template lang="pug">
-  div
-    form(@submit.prevent="onSubmit")
-      div.form-group
-        label Full name
-        div.text-danger(v-show="hasError('fullname')")
-          span(v-for="error in errors.fullname")  {{ error }}
-        input.form-control(type="text" v-model="form.fullname" @blur='validateFullname')
-      div.form-group
-        label Phone
-        div.text-danger(v-show="hasError('phone')")
-          span(v-for="error in errors.phone")  {{ error }}
-        input.form-control(type="text" v-model="form.phone" @blur='validatePhone')
-      div.form-group
-        label Email
-        div.text-danger(v-show="hasError('email')")
-          span(v-for="error in errors.email")  {{ error }}
-        input.form-control(type="text" v-model="form.email" @blur='validateEmail')
-      hr.mb-2
-      button.btn.btn-success.btn-block(type="submit" :disabled="disabled") Create
+  div.q-pa-md.rounded-borders
+    h6.q-mb-md.q-mt-sm Add Client
+    QForm(
+      class="q-gutter-y-md column"
+      ref="clientForm"
+      @reset="onReset"
+      @submit="onSubmit"
+    )
+      QInput(
+        v-model="form.fullname"
+        outlined
+        label="Fullname *"
+        hint="Enter client fullname"
+        placeholder="mr.Rich"
+        :rules="rules.fullname"
+        lazy-rules
+      )
+      QInput(
+        v-model="form.phone"
+        ref="inputPhone"
+        outlined
+        label="Phone *"
+        hint="Enter phone number"
+        placeholder="79223334455"
+        :rules="rules.phone"
+        bottom-slots
+        :error="!isValidPhone"
+        :error-message="errors.phone[0]"
+        lazy-rules
+      )
+      QInput(
+        v-model="form.email"
+        ref="inputEmail"
+        outlined
+        label="Email *"
+        hint="Enter email"
+        placeholder="email@example.com"
+        :rules="rules.email"
+        lazy-rules
+        bottom-slots
+        :error="!isValidEmail"
+        :error-message="errors.email[0]"
+        @blur="onBlurEmail"
+      )
+      div.row.q-pa-md.q-gutter-md.justify-end
+        QBtn(label="Reset" type="reset" color="white" text-color="black")
+        QBtn(label="Save" type="submit" color="primary" :disable="disabled")
 </template>
 
 <script>
+import { QForm, QInput, QSelect } from 'quasar';
 import Api from 'staffApi';
 
 const MINIMUM_LENGTH = 5;
 const ERRORS = {
+  required: 'Field is required',
   blank: "Can't be blank.",
-  minumim_length: `Must be at least ${MINIMUM_LENGTH} characters.`,
   only_numbers: 'Must be only numbers.',
   email: "Email is invalid.",
+  minumim_length: (min = MINIMUM_LENGTH) => `Must be at least ${min} characters.`,
 };
 
 export default {
+  components: {
+    QForm,
+    QInput,
+  },
+
   data() {
     return {
       form: {},
@@ -40,74 +75,72 @@ export default {
         phone: [],
         email: [],
       },
-      isValid: false,
+      rules: {
+        fullname: [
+          value => !!value || ERRORS.required,
+          value => this.isLengthGreatThan(value, 5) || ERRORS.minumim_length(5),
+        ],
+        phone: [
+          value => !!value || ERRORS.required,
+          value => this.isNumber(value) || ERRORS.only_numbers,
+        ],
+        email: [
+          value => !!value || ERRORS.required,
+          value => this.isEmail(value) || ERRORS.email,
+        ],
+      },
       isValidUniqueness: false,
     };
   },
 
   computed: {
     disabled() {
-      return this.isValid === false && this.isValidUniqueness === false;
+      return this.isValidUniqueness === false;
     },
-  },
 
-  watch: {
-    form: {
-      deep: true,
-      handler() {
-        this.formFilled();
-      },
+    isValidPhone() {
+      return this.errors.phone.length === 0;
     },
-    isValid(value) {
-      if (value === true) {
-        this.verifyUniqueness();
-      }
+    isValidEmail() {
+      return this.errors.email.length === 0;
     },
   },
 
   methods: {
+    onBlurEmail() {
+      this.$refs.clientForm.validate().then(success => {
+        if (success) {
+          this.verifyUniqueness();
+        }
+      });
+    },
+
     onSubmit() {
       Api.clients.create(this.form).then(data => {
         this.onCreated(data);
-        this.resetForm();
+        this.onReset();
       }).catch(error => {
-        this.fillErrors(error.response.data.errors);
+        const errors = error.response.data.errors;
+        this.fillErrors(errors);
       })
+    },
+
+    onReset() {
+      this.form = {};
+      this.$refs.clientForm.resetValidation();
+      this.isValidUniqueness = false;
     },
 
     onCreated(client) {
       this.$emit('client-created', client);
     },
 
-    resetForm() {
-      this.isValid = false;
-      this.isValidUniqueness = false;
-      this.form = {};
-    },
-
-    formFilled() {
-      const filled = Object.keys(this.form).every(key => this.form[key] && this.form[key].length > 0);
-      if (filled) {
-        this.validate();
-      }
-    },
-
-    validate() {
-      this.clearErrors();
-      this.validateFullname();
-      this.validatePhone();
-      this.validateEmail();
-      if (this.hasErrors() == false) {
-        this.isValid = true;
-      };
-    },
-
     verifyUniqueness() {
       this.isValidUniqueness = false;
+      this.clearErrors();
       Api.clients.verifyUniqueness(this.form).then(data => {
         this.isValidUniqueness = true;
       }).catch(error => {
-        this.isValid = false;
         this.fillErrors(error.response.data.errors);
       });
     },
@@ -126,46 +159,18 @@ export default {
       Object.keys(this.errors).forEach(key => this.errors[key] = []);
     },
 
-    validateFullname() {
-      const { fullname } = this.form;
-      this.errors.fullname = [];
-      if (this.isBlank(fullname)) {
-        this.errors.fullname.push(ERRORS.blank);
-      } else if (this.isLengthLessThan(fullname, MINIMUM_LENGTH)) {
-        this.errors.fullname.push(ERRORS.minumim_length);
-      }
-     },
-
-    validatePhone() {
-      const { phone } = this.form;
-      this.errors.phone = [];
-      if (this.isBlank(phone)) {
-        this.errors.phone.push(ERRORS.blank);
-      } else if (Number.isInteger(Number(phone)) === false) {
-        this.errors.phone.push(ERRORS.only_numbers);
-      }
-    },
-
-    validateEmail() {
-      const { email } = this.form;
-      this.errors.email = [];
-      if (this.isEmail(email) === false) {
-        this.errors.email.push(ERRORS.email);
-      }
-    },
-
     fillErrors(errors) {
       Object.keys(errors).forEach(key => {
           this.errors[key] = errors[key];
       });
     },
 
-    isBlank(value) {
-      return value ? false : true;
+    isNumber(value) {
+      return Number.isInteger(Number(value));
     },
 
-    isLengthLessThan(value, min = MINIMUM_LENGTH) {
-      return value && value.length >= min ? false : true;
+    isLengthGreatThan(value, min = MINIMUM_LENGTH) {
+      return value && value.length >= min ? true : false;
     },
 
     isEmail(email) {
