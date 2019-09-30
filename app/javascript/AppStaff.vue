@@ -40,7 +40,7 @@ export default {
     return {
       user: null,
       loading: true,
-      sidebarVisible: false,
+      sidebarVisible: true,
     };
   },
 

@@ -3,12 +3,13 @@
     v-model="visible"
     :width="200"
     :breakpoint="700"
-    overlay
+    elevated
     bordered
   )
     QScrollArea(class="fit")
-      QList(v-for="(item, index) in menu" :key="index")
-        QItem() {{ item.label }}
+      QList(padding class="text-primary")
+        QItem(v-for="(item, index) in menuItems" :key="index" :to="item.route")
+            QItemSection {{ item.label }}
 </template>
 
 <script>
@@ -16,13 +17,15 @@ import {
   QScrollArea,
   QList,
   QItem,
-} from 'quasar'
+  QItemSection,
+} from 'quasar';
 
 export default {
   components: {
     QScrollArea,
     QList,
     QItem,
+    QItemSection,
   },
 
   props: {
@@ -34,9 +37,10 @@ export default {
 
   data() {
     return {
-      menu: [
-        { label: 'Clients' },
-        { label: 'Organizations' },
+      menuItems: [
+        { label: 'Dashboard', route: { name: 'index' } },
+        { label: 'Clients', route: { name: 'clients.index' } },
+        { label: 'Organizations', route: { name: 'organizations.index' } },
       ]
     };
   },
