@@ -8,7 +8,7 @@
           img(:src="require('staffImages/diamond.svg')")
         span(class="text-white text-weight-bold") Service Center
 
-      span(v-if="user") {{ user.name }}
+      span(v-if="user") {{ user.fullname }}
       QBtn(flat no-caps color="white" label="Sign out" @click="signOut")
         QIcon(name="fas fa-sign-out-alt" right size="xs")
 </template>
