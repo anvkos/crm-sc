@@ -1,17 +1,14 @@
 <template lang="pug">
-  //- QPage
-    //- Dashboard
-  OrganizationsPage
+  QPage
+    AppDashboard
 </template>
 
 <script>
-// import Dashboard from '../components/AppDashboard';
-import OrganizationsPage from './OrganizationsPage';
+import AppDashboard from 'staffApp/components/AppDashboard';
 
 export default {
   components: {
-    // Dashboard,
-    OrganizationsPage,
+    AppDashboard,
   },
 };
 </script>
