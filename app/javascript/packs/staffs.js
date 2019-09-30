@@ -1,38 +1,7 @@
-/* eslint no-console: 0 */
-import Vue from 'vue'
-import iconSet from 'quasar/icon-set/fontawesome-v5.js'
-import '@quasar/extras/fontawesome-v5/fontawesome-v5.css'
-import 'quasar/dist/quasar.ie.polyfills'
-import '../app_staff/assets/styles/quasar.styl'
-import {
-  Quasar,
-  QLayout,
-  QHeader,
-  QDrawer,
-  QPageContainer,
-  QPage,
-  QBtn,
-} from 'quasar'
-import App from '../AppStaff.vue'
+import Vue from 'vue';
+import App from '../AppStaff.vue';
 import router from 'staffApp/router';
-
-Vue.use(Quasar, {
-  config: {},
-  components: {
-    QLayout,
-    QHeader,
-    QDrawer,
-    QPageContainer,
-    QPage,
-    QBtn,
-  },
-  directives: {
-  },
-  iconSet: iconSet,
-  plugins: {
-  }
-})
-
+import 'staffApp/quasar';
 
 document.addEventListener('DOMContentLoaded', () => {
     const app = new Vue({
