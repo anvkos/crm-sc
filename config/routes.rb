@@ -13,6 +13,7 @@ Rails.application.routes.draw do
       end
     end
     resources :organizations
+    resources :staffs, only: %i[index]
     get '*slug', to: 'index#index'
   end
 
