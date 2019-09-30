@@ -14,6 +14,7 @@ import {
   QBtn,
 } from 'quasar'
 import App from '../AppStaff.vue'
+import router from 'staffApp/router';
 
 Vue.use(Quasar, {
   config: {},
@@ -35,7 +36,8 @@ Vue.use(Quasar, {
 
 document.addEventListener('DOMContentLoaded', () => {
     const app = new Vue({
-        render: h => h(App)
+        render: h => h(App),
+        router,
     }).$mount()
     document.body.appendChild(app.$el)
-})
+});

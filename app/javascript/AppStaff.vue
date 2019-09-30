@@ -15,7 +15,7 @@
             size="3em"
             :thickness="5"
           )
-        IndexPage(v-show="!loading")
+        router-view
 
 </template>
 

@@ -13,6 +13,7 @@ Rails.application.routes.draw do
       end
     end
     resources :organizations
+    get '*slug', to: 'index#index'
   end
 
   namespace :clients do
