@@ -5,27 +5,32 @@ import 'quasar/dist/quasar.ie.polyfills';
 import 'staffApp/assets/styles/quasar.styl';
 import {
   Quasar,
-  QLayout,
-  QHeader,
-  QDrawer,
-  QPageContainer,
-  QPage,
   QBtn,
+  QDialog,
+  QDrawer,
+  QHeader,
+  QLayout,
+  QPage,
+  QPageContainer,
+  ClosePopup,
 } from 'quasar';
 
 Vue.use(Quasar, {
   config: {},
 
   components: {
-    QLayout,
-    QHeader,
-    QDrawer,
-    QPageContainer,
-    QPage,
     QBtn,
+    QDialog,
+    QDrawer,
+    QHeader,
+    QLayout,
+    QPage,
+    QPageContainer,
   },
 
-  directives: {},
+  directives: {
+    ClosePopup,
+  },
 
   iconSet: iconSet,
 
