@@ -13,7 +13,7 @@ Rails.application.routes.draw do
       end
     end
     resources :organizations
-    resources :staffs, only: %i[index create show]
+    resources :staffs, only: %i[index create show update]
     get '/*slug', to: 'index#index'
   end
 

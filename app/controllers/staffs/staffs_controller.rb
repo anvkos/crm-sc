@@ -1,5 +1,5 @@
 class Staffs::StaffsController < Staffs::BaseController
-  before_action :set_staff, only: [:show]
+  before_action :set_staff, only: %i[show update]
 
   def index
     @staffs = Staff.all
@@ -17,6 +17,14 @@ class Staffs::StaffsController < Staffs::BaseController
 
   def show
     render json: StaffSerializer.new(@staff)
+  end
+
+  def update
+    if @staff.update(staff_params)
+      render json: StaffSerializer.new(@staff)
+    else
+      respond_with_validation_error(@staff)
+    end
   end
 
   private
