@@ -18,7 +18,7 @@ export default [
     path: '/staffs', name: 'staffs.index', component: StaffsPage,
     children: [
       {
-        path: ':id', name: 'staffs.show',
+        path: ':id/edit', name: 'staffs.edit',
         components: {
           default: StaffsPage,
           modal: StaffEdit,
