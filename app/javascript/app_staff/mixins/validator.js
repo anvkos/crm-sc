@@ -1,7 +1,7 @@
 const MINIMUM_LENGTH = 5;
 
 export const VALIDATION_ERRORS = {
-  required: 'Field is required7',
+  required: 'Field is required',
   blank: "Can't be blank.",
   only_numbers: 'Must be only numbers.',
   email: "Email is invalid.",

@@ -1,6 +1,10 @@
 <template lang="pug">
     div.q-pa-md.rounded-borders
-      h6.q-mb-md.q-mt-sm Add Staff
+      h6.q-mb-md.q-mt-sm
+        template(v-if="editing")
+          | Edit Staff
+        template(v-else)
+          | Add Staff
       QForm(
         class="q-gutter-y-md column"
         ref="staffForm"
@@ -59,6 +63,12 @@ export default {
 
   mixins: [validator, validatorErrors],
 
+  props: {
+    staff: {
+      type: Object,
+    },
+  },
+
   data() {
     return {
       form: {},
@@ -75,19 +85,22 @@ export default {
           value => !!value || VALIDATION_ERRORS.required,
           value => this.isLengthGreatThan(value, 6) || VALIDATION_ERRORS.minumim_length(6),
         ],
-      }
+      },
+      editing: false,
     };
+  },
+
+  created() {
+    this.setDataForm(this.staff);
   },
 
   methods: {
     onSubmit() {
-      Api.staffs.create(this.form).then(data => {
-        this.onCreated(data);
-        this.onReset();
-      }).catch(error => {
-        const errors = error.response.data.errors;
-        this.fillErrors(errors);
-      })
+      if (this.editing == true) {
+        this.update();
+      } else {
+        this.create();
+      }
     },
 
     onReset() {
@@ -99,6 +112,39 @@ export default {
     onCreated(staff) {
       this.$emit('staff-created', staff);
     },
+
+    onUpdate(staff) {
+      this.$emit('staff-updated', staff);
+    },
+
+    setDataForm(staff) {
+      if (!staff) { return; }
+      ['fullname', 'email'].forEach(key => {
+        this.form[key] = staff[key];
+      });
+      this.editing = true;
+    },
+
+    create() {
+      Api.staffs.create(this.form).then(data => {
+        this.onCreated(data);
+        this.onReset();
+      }).catch(error => {
+        const errors = error.response.data.errors;
+        this.fillErrors(errors);
+      });
+    },
+
+    update() {
+      const { id } = this.staff;
+      Api.staffs.update(id, this.form).then(data => {
+        this.onUpdate(data);
+        this.onReset();
+      }).catch(error => {
+        const errors = error.response.data.errors;
+        this.fillErrors(errors);
+      });
+    }
   },
 };
 </script>
