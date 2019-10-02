@@ -1,4 +1,6 @@
 class Staffs::StaffsController < Staffs::BaseController
+  before_action :set_staff, only: [:show]
+
   def index
     @staffs = Staff.all
     render json: StaffSerializer.new(@staffs)
@@ -13,6 +15,10 @@ class Staffs::StaffsController < Staffs::BaseController
     end
   end
 
+  def show
+    render json: StaffSerializer.new(@staff)
+  end
+
   private
 
   def staff_params
@@ -21,5 +27,9 @@ class Staffs::StaffsController < Staffs::BaseController
       :email,
       :password
     )
+  end
+
+  def set_staff
+    @staff = Staff.find(params[:id])
   end
 end
