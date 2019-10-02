@@ -6,14 +6,16 @@ Rails.application.routes.draw do
 
   namespace :staffs do
     get '/', to: 'index#index', as: :root
-    get '/user', to: 'index#user', as: :user
-    resources :clients do
-      collection do
-        post 'verify_uniqueness'
+    scope constraints: lambda { |req| req.format == :json } do
+      get '/user', to: 'index#user', as: :user
+      resources :clients do
+        collection do
+          post 'verify_uniqueness'
+        end
       end
+      resources :organizations
+      resources :staffs, only: %i[index create show update]
     end
-    resources :organizations
-    resources :staffs, only: %i[index create show update]
     get '/*slug', to: 'index#index'
   end
 
