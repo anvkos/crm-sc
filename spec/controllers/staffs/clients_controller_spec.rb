@@ -140,4 +140,66 @@ RSpec.describe Staffs::ClientsController, type: :controller do
       end
     end
   end
+
+  describe 'PATCH #update' do
+    let!(:client) { create(:client) }
+    let(:update_params) do
+      {
+        fullname: 'updated_name',
+        email: 'uplated_email@test.com',
+        phone: 777_888
+      }
+    end
+
+    context 'when user authenticated' do
+      sign_in_staff
+
+      before { patch :update, params: { id: client.id, client: update_params, format: :json } }
+
+      context 'with valid attributes' do
+        it 'returns http success' do
+          expect(response).to have_http_status(:success)
+        end
+
+        %i[fullname email phone].each do |attr|
+          it "change client :#{attr} attribute" do
+            expect(client.reload.send(attr)).to eq update_params[attr]
+          end
+        end
+
+        it 'returns client json schema' do
+          expect(response).to match_response_schema('clients/client')
+        end
+      end
+
+      context 'with invalid attributes' do
+        let(:invalid_params) do
+          {
+            fullname: nil,
+            email: 'invalid',
+            phone: nil
+          }
+        end
+
+        before { patch :update, params: { id: client.id, client: invalid_params, format: :json } }
+
+        it 'returns 422 status code' do
+          expect(response).to have_http_status(:unprocessable_entity)
+        end
+
+        %i[fullname email phone].each do |attr|
+          it "does not change client :#{attr} attribute" do
+            expect(client.reload.send(attr)).not_to eq invalid_params[attr]
+          end
+        end
+      end
+    end
+
+    context 'when user is not unauthorized' do
+      it 'returns 401 status code' do
+        patch :update, params: { id: client.id, client: update_params, format: :json }
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+  end
 end

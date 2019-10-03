@@ -1,5 +1,5 @@
 class Staffs::ClientsController < Staffs::BaseController
-  before_action :set_client, only: %i[show]
+  before_action :set_client, only: %i[show update]
 
   def index
     @clients = Client.all
@@ -7,7 +7,7 @@ class Staffs::ClientsController < Staffs::BaseController
   end
 
   def verify_uniqueness
-    @client = Client.new(creation_params)
+    @client = Client.new(permitted_params)
     if @client.valid_uniqueness?
       render json: { data: { message: 'ok' } }
     else
@@ -16,7 +16,7 @@ class Staffs::ClientsController < Staffs::BaseController
   end
 
   def create
-    client_params = { password: SecureRandom.hex(5) }.merge(creation_params)
+    client_params = { password: SecureRandom.hex(5) }.merge(permitted_params)
     @client = Client.new(client_params)
     if @client.valid?
       @client.save
@@ -30,9 +30,17 @@ class Staffs::ClientsController < Staffs::BaseController
     render json: ClientSerializer.new(@client)
   end
 
+  def update
+    if @client.update(permitted_params)
+      render json: ClientSerializer.new(@client)
+    else
+      respond_with_validation_error(@client)
+    end
+  end
+
   private
 
-  def creation_params
+  def permitted_params
     params.require(:client).permit(:fullname, :phone, :email)
   end
 
