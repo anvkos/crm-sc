@@ -1,4 +1,6 @@
 class Staffs::ClientsController < Staffs::BaseController
+  before_action :set_client, only: %i[show]
+
   def index
     @clients = Client.all
     render json: ClientSerializer.new(@clients)
@@ -24,9 +26,17 @@ class Staffs::ClientsController < Staffs::BaseController
     end
   end
 
+  def show
+    render json: ClientSerializer.new(@client)
+  end
+
   private
 
   def creation_params
     params.require(:client).permit(:fullname, :phone, :email)
+  end
+
+  def set_client
+    @client = Client.find(params[:id])
   end
 end
