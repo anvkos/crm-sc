@@ -17,8 +17,20 @@ export const verifyUniqueness = (params) => request({
   data: { client: params },
 });
 
+export const fetch = (id) => request({
+  endpoint: `/clients/${id}`,
+});
+
+export const update = (id, params) => request({
+  endpoint: `/clients/${id}`,
+  method: 'patch',
+  data: { client: params },
+});
+
 export default {
   fetchAll,
   create,
+  fetch,
+  update,
   verifyUniqueness,
 };

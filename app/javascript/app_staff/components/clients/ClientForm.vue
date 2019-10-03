@@ -1,6 +1,10 @@
 <template lang="pug">
   div.q-pa-md.rounded-borders
-    h6.q-mb-md.q-mt-sm Add Client
+    h6.q-mb-md.q-mt-sm
+      template(v-if="editing")
+        | Edit Client
+      template(v-else)
+        | Add Client
     QForm(
       class="q-gutter-y-md column"
       ref="clientForm"
@@ -67,6 +71,12 @@ export default {
     QInput,
   },
 
+  props: {
+    client: {
+      type: Object,
+    },
+  },
+
   data() {
     return {
       form: {},
@@ -90,12 +100,13 @@ export default {
         ],
       },
       isValidUniqueness: false,
+      editing: false,
     };
   },
 
   computed: {
     disabled() {
-      return this.isValidUniqueness === false;
+      return this.editing === false && this.isValidUniqueness === false;
     },
 
     isValidPhone() {
@@ -106,23 +117,25 @@ export default {
     },
   },
 
+  created() {
+    this.setDataForm(this.client);
+  },
+
   methods: {
     onBlurEmail() {
       this.$refs.clientForm.validate().then(success => {
-        if (success) {
+        if (success && this.editing === false) {
           this.verifyUniqueness();
         }
       });
     },
 
     onSubmit() {
-      Api.clients.create(this.form).then(data => {
-        this.onCreated(data);
-        this.onReset();
-      }).catch(error => {
-        const errors = error.response.data.errors;
-        this.fillErrors(errors);
-      })
+      if (this.editing == true) {
+        this.update();
+      } else {
+        this.create();
+      }
     },
 
     onReset() {
@@ -135,6 +148,10 @@ export default {
       this.$emit('client-created', client);
     },
 
+    onUpdate(client) {
+      this.$emit('client-updated', client);
+    },
+
     verifyUniqueness() {
       this.isValidUniqueness = false;
       this.clearErrors();
@@ -142,6 +159,35 @@ export default {
         this.isValidUniqueness = true;
       }).catch(error => {
         this.fillErrors(error.response.data.errors);
+      });
+    },
+
+    setDataForm(client) {
+      if (!client) { return; }
+      ['fullname', 'email', 'phone'].forEach(key => {
+        this.form[key] = client[key];
+      });
+      this.editing = true;
+    },
+
+    create() {
+      Api.clients.create(this.form).then(data => {
+        this.onCreated(data);
+        this.onReset();
+      }).catch(error => {
+        const errors = error.response.data.errors;
+        this.fillErrors(errors);
+      })
+    },
+
+    update() {
+      const { id } = this.client;
+      Api.clients.update(id, this.form).then(data => {
+        this.onUpdate(data);
+        this.onReset();
+      }).catch(error => {
+        const errors = error.response.data.errors;
+        this.fillErrors(errors);
       });
     },
 
@@ -176,7 +222,7 @@ export default {
     isEmail(email) {
       const regexp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
       return regexp.test(String(email).toLowerCase());
-    }
+    },
   },
 };
 </script>

@@ -7,14 +7,18 @@
       row-key="id"
       :pagination.sync="pagination"
     )
+      template(v-slot:body-cell-actions="props")
+        QTd(:props="props")
+          QBtn(label="edit" flat color="green" size="sm" :to="{ name: 'clients.edit', params: { id: props.value } }")
 </template>
 
 <script>
-import { QTable, QBtn, QTr, QTd } from 'quasar';
+import { QTable, QTd } from 'quasar';
 
 export default {
   components: {
     QTable,
+    QTd,
   },
 
   props: {
@@ -31,6 +35,7 @@ export default {
         { name: 'fullname', label: 'Full name',field: 'fullname', sortable: true },
         { name: 'phone', label: 'Phone',field: 'phone', sortable: true },
         { name: 'email', label: 'Email',field: 'email', sortable: true },
+        { name: 'actions', label: 'Actions', field: 'id' },
       ],
       pagination: {
         rowsPerPage: 20,
