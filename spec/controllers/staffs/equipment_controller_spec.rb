@@ -33,4 +33,62 @@ RSpec.describe Staffs::EquipmentController, type: :controller do
       end
     end
   end
+
+  describe 'POST #create' do
+    let(:params) do
+      {
+        equipment: {
+          name: 'Synchrotron+',
+          kind: 'synchrotron',
+          serial_number: 'RE-777-888-99'
+        },
+        format: :json
+      }
+    end
+
+    context 'when user authenticated' do
+      sign_in_staff
+
+      context 'with valid attributes' do
+        it 'returns 201 status code' do
+          post :create, params: params
+          expect(response).to have_http_status(:created)
+        end
+
+        it 'returns equipment json schema' do
+          post :create, params: params
+          expect(response).to match_response_schema('equipment/equipment')
+        end
+
+        it 'saves new equipment in the database' do
+          expect { post :create, params: params }.to change(Equipment, :count).by(1)
+        end
+      end
+
+      context 'with invalid attributes' do
+        let(:invalid_params) do
+          {
+            equipment: attributes_for(:invalid_equipment),
+            format: :json
+          }
+        end
+
+        it 'returns 422 status code' do
+          post :create, params: invalid_params
+          expect(response).to have_http_status(:unprocessable_entity)
+        end
+
+        it 'does not save the equipment in the database' do
+          expect { post :create, params: invalid_params }.not_to change(Equipment, :count)
+        end
+      end
+    end
+
+    context 'when user is not unauthorized' do
+      it 'returns 401 status code' do
+        post :create, params: params
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+  end
 end
