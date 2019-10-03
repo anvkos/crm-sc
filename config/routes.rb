@@ -6,7 +6,7 @@ Rails.application.routes.draw do
 
   namespace :staffs do
     get '/', to: 'index#index', as: :root
-    scope constraints: lambda { |req| req.format == :json } do
+    scope constraints: ->(req) { req.format == :json } do
       get '/user', to: 'index#user', as: :user
       resources :clients do
         collection do
@@ -15,6 +15,7 @@ Rails.application.routes.draw do
       end
       resources :organizations
       resources :staffs, only: %i[index create show update]
+      resources :equipment, only: %i[index]
     end
     get '/*slug', to: 'index#index'
   end
