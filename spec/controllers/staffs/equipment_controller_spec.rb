@@ -91,4 +91,29 @@ RSpec.describe Staffs::EquipmentController, type: :controller do
       end
     end
   end
+
+  describe 'GET #show' do
+    let!(:equipment) { create(:equipment) }
+
+    context 'when user authenticated' do
+      sign_in_staff
+
+      before { get :show, params: { id: equipment.id, format: :json } }
+
+      it 'returns http success' do
+        expect(response).to have_http_status(:success)
+      end
+
+      it 'returns equipment json schema' do
+        expect(response).to match_response_schema('equipment/equipment')
+      end
+    end
+
+    context 'when user is not unauthorized' do
+      it 'returns 401 status code' do
+        get :show, params: { id: equipment.id, format: :json }
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+  end
 end

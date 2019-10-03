@@ -1,4 +1,6 @@
 class Staffs::EquipmentController < Staffs::BaseController
+  before_action :set_equipment, only: %i[show]
+
   def index
     @equipment_items = Equipment.all
     render json: EquipmentSerializer.new(@equipment_items)
@@ -13,6 +15,10 @@ class Staffs::EquipmentController < Staffs::BaseController
     end
   end
 
+  def show
+    render json: EquipmentSerializer.new(@equipment)
+  end
+
   private
 
   def equipment_params
@@ -21,5 +27,9 @@ class Staffs::EquipmentController < Staffs::BaseController
       :kind,
       :serial_number
     )
+  end
+
+  def set_equipment
+    @equipment = Equipment.find(params[:id])
   end
 end
