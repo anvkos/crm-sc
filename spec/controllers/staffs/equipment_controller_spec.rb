@@ -116,4 +116,60 @@ RSpec.describe Staffs::EquipmentController, type: :controller do
       end
     end
   end
+
+  describe 'PATCH #update' do
+    let!(:equipment) { create(:equipment) }
+    let(:update_params) do
+      {
+        name: 'Diesel generator',
+        kind: 'generator',
+        serial_number: 'Daily RG 9000 LSM'
+      }
+    end
+
+    context 'when user authenticated' do
+      sign_in_staff
+
+      before { patch :update, params: { id: equipment.id, equipment: update_params, format: :json } }
+
+      context 'with valid attributes' do
+        it 'returns http success' do
+          expect(response).to have_http_status(:success)
+        end
+
+        %i[name kind serial_number].each do |attr|
+          it "change equipment :#{attr} attribute" do
+            expect(equipment.reload.send(attr)).to eq update_params[attr]
+          end
+        end
+
+        it 'returns equipment json schema' do
+          expect(response).to match_response_schema('equipment/equipment')
+        end
+      end
+
+      context 'with invalid attributes' do
+        let(:invalid_params) { attributes_for(:invalid_equipment) }
+
+        before { patch :update, params: { id: equipment.id, equipment: invalid_params, format: :json } }
+
+        it 'returns 422 status code' do
+          expect(response).to have_http_status(:unprocessable_entity)
+        end
+
+        %i[name kind serial_number].each do |attr|
+          it "does not change equipment :#{attr} attribute" do
+            expect(equipment.reload.send(attr)).not_to eq invalid_params[attr]
+          end
+        end
+      end
+    end
+
+    context 'when user is not unauthorized' do
+      it 'returns 401 status code' do
+        patch :update, params: { id: equipment.id, equipment: update_params, format: :json }
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+  end
 end

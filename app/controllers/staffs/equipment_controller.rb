@@ -1,5 +1,5 @@
 class Staffs::EquipmentController < Staffs::BaseController
-  before_action :set_equipment, only: %i[show]
+  before_action :set_equipment, only: %i[show update]
 
   def index
     @equipment_items = Equipment.all
@@ -17,6 +17,14 @@ class Staffs::EquipmentController < Staffs::BaseController
 
   def show
     render json: EquipmentSerializer.new(@equipment)
+  end
+
+  def update
+    if @equipment.update(equipment_params)
+      render json: EquipmentSerializer.new(@equipment)
+    else
+      respond_with_validation_error(@equipment)
+    end
   end
 
   private
