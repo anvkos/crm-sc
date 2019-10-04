@@ -42,6 +42,7 @@ export default {
         { label: 'Clients', route: { name: 'clients.index' } },
         { label: 'Organizations', route: { name: 'organizations.index' } },
         { label: 'Staffs', route: { name: 'staffs.index' } },
+        { label: 'Equipment', route: { name: 'equipments.index' } },
       ]
     };
   },

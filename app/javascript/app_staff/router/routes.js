@@ -44,4 +44,7 @@ export default [
       },
     ],
   },
+  {
+    path: '/equipments', name: 'equipments.index', component: () => import('staffApp/pages/EquipmentPage'),
+  }
 ]
