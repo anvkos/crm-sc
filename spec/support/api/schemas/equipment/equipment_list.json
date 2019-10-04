@@ -28,7 +28,8 @@
               "id",
               "name",
               "type_equipment_id",
-              "serial_number"
+              "serial_number",
+              "type_equipment_name"
             ],
             "additionalProperties": false,
             "properties": {
@@ -43,6 +44,9 @@
               },
               "serial_number": {
                   "type": "string"
+              },
+              "type_equipment_name": {
+                "type": "string"
               }
             }
           }

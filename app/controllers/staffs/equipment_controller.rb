@@ -2,7 +2,7 @@ class Staffs::EquipmentController < Staffs::BaseController
   before_action :set_equipment, only: %i[show update]
 
   def index
-    @equipment_items = Equipment.all
+    @equipment_items = Equipment.includes(:type_equipment).all
     render json: EquipmentSerializer.new(@equipment_items)
   end
 
