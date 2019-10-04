@@ -30,11 +30,12 @@ ActiveRecord::Schema.define(version: 2019_10_03_075155) do
   end
 
   create_table "equipment", force: :cascade do |t|
-    t.string "name"
-    t.string "kind"
-    t.string "serial_number"
+    t.string "name", null: false
+    t.bigint "type_equipment_id"
+    t.string "serial_number", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["type_equipment_id"], name: "index_equipment_on_type_equipment_id"
   end
 
   create_table "organizations", force: :cascade do |t|
@@ -59,4 +60,11 @@ ActiveRecord::Schema.define(version: 2019_10_03_075155) do
     t.index ["reset_password_token"], name: "index_staffs_on_reset_password_token", unique: true
   end
 
+  create_table "type_equipments", force: :cascade do |t|
+    t.string "name", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  add_foreign_key "equipment", "type_equipments"
 end

@@ -1,13 +1,13 @@
 FactoryBot.define do
   factory :equipment do
     name { Faker::Device.model_name }
-    kind { Faker::Device.platform }
+    type_equipment
     serial_number { Faker::Device.serial }
   end
 
   factory :invalid_equipment, class: 'Equipment' do
     name { nil }
-    kind { nil }
+    type_equipment { nil }
     serial_numner { nil }
   end
 end

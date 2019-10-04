@@ -25,7 +25,7 @@
           "required": [
             "id",
             "name",
-            "kind",
+            "type_equipment_id",
             "serial_number"
           ],
           "additionalProperties": false,
@@ -36,8 +36,8 @@
             "name": {
               "type": "string"
             },
-            "kind": {
-              "type": "string"
+            "type_equipment_id": {
+              "type": "integer"
             },
             "serial_number": {
                 "type": "string"

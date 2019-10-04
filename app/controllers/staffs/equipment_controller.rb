@@ -32,7 +32,7 @@ class Staffs::EquipmentController < Staffs::BaseController
   def equipment_params
     params.require(:equipment).permit(
       :name,
-      :kind,
+      :type_equipment_id,
       :serial_number
     )
   end

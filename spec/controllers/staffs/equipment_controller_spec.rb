@@ -35,11 +35,12 @@ RSpec.describe Staffs::EquipmentController, type: :controller do
   end
 
   describe 'POST #create' do
+    let!(:type) { create(:type_equipment) }
     let(:params) do
       {
         equipment: {
           name: 'Synchrotron+',
-          kind: 'synchrotron',
+          type_equipment_id: type.id,
           serial_number: 'RE-777-888-99'
         },
         format: :json
@@ -119,10 +120,11 @@ RSpec.describe Staffs::EquipmentController, type: :controller do
 
   describe 'PATCH #update' do
     let!(:equipment) { create(:equipment) }
+    let!(:type) { create(:type_equipment) }
     let(:update_params) do
       {
         name: 'Diesel generator',
-        kind: 'generator',
+        type_equipment_id: type.id,
         serial_number: 'Daily RG 9000 LSM'
       }
     end
@@ -137,7 +139,7 @@ RSpec.describe Staffs::EquipmentController, type: :controller do
           expect(response).to have_http_status(:success)
         end
 
-        %i[name kind serial_number].each do |attr|
+        %i[name type_equipment_id serial_number].each do |attr|
           it "change equipment :#{attr} attribute" do
             expect(equipment.reload.send(attr)).to eq update_params[attr]
           end
@@ -157,7 +159,7 @@ RSpec.describe Staffs::EquipmentController, type: :controller do
           expect(response).to have_http_status(:unprocessable_entity)
         end
 
-        %i[name kind serial_number].each do |attr|
+        %i[name type_equipment_id serial_number].each do |attr|
           it "does not change equipment :#{attr} attribute" do
             expect(equipment.reload.send(attr)).not_to eq invalid_params[attr]
           end

@@ -1,3 +1,3 @@
 class EquipmentSerializer < ApplicationSerializer
-  attributes :id, :name, :kind, :serial_number
+  attributes :id, :name, :type_equipment_id, :serial_number
 end
