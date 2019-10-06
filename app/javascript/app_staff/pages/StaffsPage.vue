@@ -7,19 +7,16 @@
         StaffsList(:staffs="staffs")
       div.col-4
         StaffForm(@staff-created="onStaffCreated")
-    AppModal(v-if="showModal" :title="'Edit'")
-      router-view(name="modal")
+    router-view
 </template>
 
 <script>
-import AppModal from 'staffApp/components/AppModal';
 import StaffsList from 'staffApp/components/staffs/StaffsList';
 import StaffForm from 'staffApp/components/staffs/StaffForm';
 import Api from 'staffApi';
 
 export default {
   components: {
-    AppModal,
     StaffsList,
     StaffForm,
   },
@@ -27,14 +24,7 @@ export default {
   data() {
     return {
       staffs: [],
-      showModal: this.$route.meta.showModal,
     };
-  },
-
-  watch: {
-    "$route.meta"({ showModal }) {
-      this.showModal = showModal;
-    }
   },
 
   created() {

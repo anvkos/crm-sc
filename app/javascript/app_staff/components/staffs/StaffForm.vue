@@ -1,10 +1,7 @@
 <template lang="pug">
     div.q-pa-md.rounded-borders
       h6.q-mb-md.q-mt-sm
-        template(v-if="editing")
-          | Edit Staff
-        template(v-else)
-          | Add Staff
+        | {{ editing ? 'Staff' : 'Add Staff'}}
       QForm(
         class="q-gutter-y-md column"
         ref="staffForm"
@@ -86,8 +83,13 @@ export default {
           value => this.isLengthGreatThan(value, 6) || VALIDATION_ERRORS.minumim_length(6),
         ],
       },
-      editing: false,
     };
+  },
+
+  computed: {
+    editing() {
+      return !!this.staff;
+    }
   },
 
   created() {
@@ -122,7 +124,6 @@ export default {
       ['fullname', 'email'].forEach(key => {
         this.form[key] = staff[key];
       });
-      this.editing = true;
     },
 
     create() {

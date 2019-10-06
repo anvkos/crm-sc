@@ -3,7 +3,6 @@ import ClientsPage from 'staffApp/pages/ClientsPage';
 import ClientEdit from 'staffApp/pages/ClientEdit';
 import OrganizationsPage from 'staffApp/pages/OrganizationsPage';
 import StaffsPage from 'staffApp/pages/StaffsPage';
-import StaffEdit from 'staffApp/pages/StaffEdit';
 
 export default [
   {
@@ -32,15 +31,9 @@ export default [
     path: '/staffs', name: 'staffs.index', component: StaffsPage,
     children: [
       {
-        path: ':id/edit', name: 'staffs.edit',
-        components: {
-          default: StaffsPage,
-          modal: StaffEdit,
-        },
-        props: true,
-        meta: {
-          showModal: true
-        }
+        path: ':id/edit',
+        name: 'staffs.edit',
+        component: () => import('staffApp/components/staffs/StaffEdit'),
       },
     ],
   },

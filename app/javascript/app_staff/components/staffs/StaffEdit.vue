@@ -1,14 +1,17 @@
 <template lang="pug">
-  .form-container
-    StaffForm(v-if="staff" :staff="staff" @staff-updated="onStaffUpdated")
+  AppModal(:title="'Edit'")
+    .form-container
+      StaffForm(v-if="staff" :staff="staff" @staff-updated="onStaffUpdated")
 </template>
 
 <script>
 import Api from 'staffApi';
+import AppModal from 'staffApp/components/AppModal';
 import StaffForm from 'staffApp/components/staffs/StaffForm';
 
 export default {
   components: {
+    AppModal,
     StaffForm,
   },
 
