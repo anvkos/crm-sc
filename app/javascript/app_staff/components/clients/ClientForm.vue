@@ -51,22 +51,16 @@
 
 <script>
 import { QForm, QInput, QSelect } from 'quasar';
+import { validator, validatorErrors, VALIDATION_ERRORS } from 'staffApp/mixins/validator';
 import Api from 'staffApi';
-
-const MINIMUM_LENGTH = 5;
-const ERRORS = {
-  required: 'Field is required',
-  blank: "Can't be blank.",
-  only_numbers: 'Must be only numbers.',
-  email: "Email is invalid.",
-  minumim_length: (min = MINIMUM_LENGTH) => `Must be at least ${min} characters.`,
-};
 
 export default {
   components: {
     QForm,
     QInput,
   },
+
+  mixins: [validator, validatorErrors],
 
   props: {
     client: {
@@ -84,16 +78,16 @@ export default {
       },
       rules: {
         fullname: [
-          value => !!value || ERRORS.required,
-          value => this.isLengthGreatThan(value, 5) || ERRORS.minumim_length(5),
+          value => !!value || VALIDATION_ERRORS.required,
+          value => this.isLengthGreatThan(value, 5) || VALIDATION_ERRORS.minumim_length(5),
         ],
         phone: [
-          value => !!value || ERRORS.required,
-          value => this.isNumber(value) || ERRORS.only_numbers,
+          value => !!value || VALIDATION_ERRORS.required,
+          value => this.isNumber(value) || VALIDATION_ERRORS.only_numbers,
         ],
         email: [
-          value => !!value || ERRORS.required,
-          value => this.isEmail(value) || ERRORS.email,
+          value => !!value || VALIDATION_ERRORS.required,
+          value => this.isEmail(value) || VALIDATION_ERRORS.email,
         ],
       },
       isValidUniqueness: false,
@@ -107,9 +101,6 @@ export default {
 
     isValidPhone() {
       return this.errors.phone.length === 0;
-    },
-    isValidEmail() {
-      return this.errors.email.length === 0;
     },
 
     editing() {
@@ -188,39 +179,6 @@ export default {
         const errors = error.response.data.errors;
         this.fillErrors(errors);
       });
-    },
-
-    hasErrors() {
-      return Object.keys(this.errors).some(key => {
-        return this.errors[key].length > 0;
-      });
-    },
-
-    hasError(name) {
-      return this.errors[name].length > 0;
-    },
-
-    clearErrors() {
-      Object.keys(this.errors).forEach(key => this.errors[key] = []);
-    },
-
-    fillErrors(errors) {
-      Object.keys(errors).forEach(key => {
-          this.errors[key] = errors[key];
-      });
-    },
-
-    isNumber(value) {
-      return Number.isInteger(Number(value));
-    },
-
-    isLengthGreatThan(value, min = MINIMUM_LENGTH) {
-      return value && value.length >= min ? true : false;
-    },
-
-    isEmail(email) {
-      const regexp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-      return regexp.test(String(email).toLowerCase());
     },
   },
 };
