@@ -11,7 +11,13 @@ export const create = (params) => request({
   data: { equipment: params },
 });
 
+export const fetchTypes = (params) => request({
+  endpoint: '/equipment/types',
+  params,
+});
+
 export default {
   fetchAll,
+  fetchTypes,
   create,
 };

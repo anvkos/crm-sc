@@ -62,11 +62,7 @@ export default {
   data() {
     return {
       form: {},
-      types: [
-        { id: 1, name: 'Type_1' },
-        { id: 2, name: 'Type_2' },
-        { id: 3, name: 'Type_3' },
-      ],
+      types: [],
       rules: {
         name: [
           value => !!value || VALIDATION_ERRORS.required,
@@ -80,6 +76,10 @@ export default {
       },
 
     };
+  },
+
+  created() {
+    this.fetchTypes();
   },
 
   methods: {
@@ -101,6 +101,12 @@ export default {
     onCreated(equipment) {
       this.$emit('equipment-created', equipment);
     },
+
+    fetchTypes() {
+      Api.equipments.fetchTypes().then(data => {
+        this.types = data;
+      });
+    }
   },
 };
 </script>

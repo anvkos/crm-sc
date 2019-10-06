@@ -15,8 +15,11 @@ Rails.application.routes.draw do
       end
       resources :organizations
       resources :staffs, only: %i[index create show update]
-      resources :type_equipments, only: %i[index]
-      resources :equipment, only: %i[index create show update]
+      resources :equipment, only: %i[index create show update] do
+        collection do
+          resources :types, controller: 'type_equipments', only: %i[index]
+        end
+      end
     end
     get '/*slug', to: 'index#index'
   end
