@@ -27,7 +27,8 @@
             "name",
             "type_equipment_id",
             "serial_number",
-            "type_equipment_name"
+            "type_equipment_name",
+            "organization_id"
           ],
           "additionalProperties": false,
           "properties": {
@@ -45,7 +46,10 @@
             },
             "type_equipment_name": {
               "type": "string"
-          }
+            },
+            "organization_id": {
+              "type": "integer"
+            }
           }
         }
       }

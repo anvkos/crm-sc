@@ -36,12 +36,14 @@ RSpec.describe Staffs::EquipmentController, type: :controller do
 
   describe 'POST #create' do
     let!(:type) { create(:type_equipment) }
+    let!(:organization) { create(:organization) }
     let(:params) do
       {
         equipment: {
           name: 'Synchrotron+',
           type_equipment_id: type.id,
-          serial_number: 'RE-777-888-99'
+          serial_number: 'RE-777-888-99',
+          organization_id: organization.id
         },
         format: :json
       }
@@ -121,11 +123,13 @@ RSpec.describe Staffs::EquipmentController, type: :controller do
   describe 'PATCH #update' do
     let!(:equipment) { create(:equipment) }
     let!(:type) { create(:type_equipment) }
+    let!(:organization) { create(:organization) }
     let(:update_params) do
       {
         name: 'Diesel generator',
         type_equipment_id: type.id,
-        serial_number: 'Daily RG 9000 LSM'
+        serial_number: 'Daily RG 9000 LSM',
+        organization_id: organization.id
       }
     end
 
