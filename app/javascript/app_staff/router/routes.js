@@ -46,5 +46,12 @@ export default [
   },
   {
     path: '/equipments', name: 'equipments.index', component: () => import('staffApp/pages/EquipmentPage'),
+    children: [
+      {
+        path: ':id/edit',
+        name: 'equipments.edit',
+        component: () => import('staffApp/components/equipments/EquipmentEdit'),
+      },
+    ],
   }
 ]

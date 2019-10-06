@@ -7,6 +7,7 @@
         EquipmentList(:items="equipmentItems")
       div.col-4
         EquipmentForm(@equipment-created="onEquipmentCreated")
+    router-view
 </template>
 
 <script>

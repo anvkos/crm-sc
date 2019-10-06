@@ -1,7 +1,7 @@
 <template lang="pug">
   div.q-pa-md.rounded-borders
     h6.q-mb-md.q-mt-sm
-      | Add Equipment
+      | {{ editing ? 'Equipment' : 'Add Equipment'}}
     QForm(
       class="q-gutter-y-md column"
       ref="equipmentForm"
@@ -59,6 +59,12 @@ export default {
 
   mixins: [validator, validatorErrors],
 
+  props: {
+    equipment: {
+      type: Object,
+    },
+  },
+
   data() {
     return {
       form: {},
@@ -74,23 +80,27 @@ export default {
           value => this.isLengthGreatThan(value, 5) || VALIDATION_ERRORS.minumim_length(5),
         ],
       },
-
     };
+  },
+
+  computed: {
+    editing() {
+      return !!this.equipment;
+    }
   },
 
   created() {
     this.fetchTypes();
+    this.setDataForm(this.equipment);
   },
 
   methods: {
     onSubmit() {
-      Api.equipments.create(this.form).then(data => {
-        this.onCreated(data);
-        this.onReset();
-      }).catch(error => {
-        const errors = error.response.data.errors;
-        this.fillErrors(errors);
-      });
+      if (this.editing == true) {
+        this.update();
+      } else {
+        this.create();
+      }
     },
 
     onReset() {
@@ -102,11 +112,43 @@ export default {
       this.$emit('equipment-created', equipment);
     },
 
+    onUpdated(equipment) {
+      this.$emit('equipment-updated', equipment);
+    },
+
     fetchTypes() {
       Api.equipments.fetchTypes().then(data => {
         this.types = data;
       });
-    }
+    },
+
+    setDataForm(equipment) {
+      if (!equipment) { return; }
+      ['name', 'type_equipment_id', 'serial_number'].forEach(key => {
+        this.form[key] = equipment[key];
+      });
+    },
+
+    create() {
+      Api.equipments.create(this.form).then(data => {
+        this.onCreated(data);
+        this.onReset();
+      }).catch(error => {
+        const errors = error.response.data.errors;
+        this.fillErrors(errors);
+      });
+    },
+
+    update() {
+      const { id } = this.equipment;
+      Api.equipments.update(id, this.form).then(data => {
+        this.onUpdated(data);
+        this.onReset();
+      }).catch(error => {
+        const errors = error.response.data.errors;
+        this.fillErrors(errors);
+      });
+    },
   },
 };
 </script>
