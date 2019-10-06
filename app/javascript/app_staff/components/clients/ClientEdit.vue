@@ -1,14 +1,17 @@
 <template lang="pug">
-  .form-container
-    ClientForm(v-if="client" :client="client" @client-updated="onClientUpdated")
+  AppModal(:title="'Edit'")
+    .form-container
+      ClientForm(v-if="client" :client="client" @client-updated="onClientUpdated")
 </template>
 
 <script>
 import Api from 'staffApi';
+import AppModal from 'staffApp/components/AppModal';
 import ClientForm from 'staffApp/components/clients/ClientForm';
 
 export default {
   components: {
+    AppModal,
     ClientForm,
   },
 

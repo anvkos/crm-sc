@@ -7,20 +7,17 @@
         ClientsList(:clients="clients")
       div.col-4
         ClientForm(@client-created="onClientCreated")
-    AppModal(v-if="showModal" :title="'Edit'")
-      router-view(name="modal")
+    router-view
 </template>
 
 <script>
 import { QPage } from 'quasar';
-import AppModal from 'staffApp/components/AppModal';
 import ClientsList from 'staffApp/components/clients/ClientsList';
 import ClientForm from 'staffApp/components/clients/ClientForm';
 import Api from 'staffApi';
 
 export default {
   components: {
-    AppModal,
     ClientsList,
     ClientForm,
   },
@@ -29,14 +26,7 @@ export default {
     return {
       loading: true,
       clients: [],
-      showModal: this.$route.meta.showModal,
     };
-  },
-
-  watch: {
-    "$route.meta"({ showModal }) {
-      this.showModal = showModal;
-    }
   },
 
   created() {
@@ -58,7 +48,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss" scoped>
-
-</style>

@@ -1,10 +1,7 @@
 <template lang="pug">
   div.q-pa-md.rounded-borders
     h6.q-mb-md.q-mt-sm
-      template(v-if="editing")
-        | Edit Client
-      template(v-else)
-        | Add Client
+      | {{ editing ? 'Client' : 'Add Client' }}
     QForm(
       class="q-gutter-y-md column"
       ref="clientForm"
@@ -100,7 +97,6 @@ export default {
         ],
       },
       isValidUniqueness: false,
-      editing: false,
     };
   },
 
@@ -114,6 +110,10 @@ export default {
     },
     isValidEmail() {
       return this.errors.email.length === 0;
+    },
+
+    editing() {
+      return !!this.client;
     },
   },
 
@@ -167,7 +167,6 @@ export default {
       ['fullname', 'email', 'phone'].forEach(key => {
         this.form[key] = client[key];
       });
-      this.editing = true;
     },
 
     create() {

@@ -1,6 +1,5 @@
 import IndexPage from 'staffApp/pages/IndexPage';
 import ClientsPage from 'staffApp/pages/ClientsPage';
-import ClientEdit from 'staffApp/pages/ClientEdit';
 import OrganizationsPage from 'staffApp/pages/OrganizationsPage';
 import StaffsPage from 'staffApp/pages/StaffsPage';
 
@@ -15,15 +14,9 @@ export default [
     path: '/clients', name: 'clients.index', component: ClientsPage,
     children: [
       {
-        path: ':id/edit', name: 'clients.edit',
-        components: {
-          default: ClientsPage,
-          modal: ClientEdit,
-        },
-        props: true,
-        meta: {
-          showModal: true
-        }
+        path: ':id/edit',
+        name: 'clients.edit',
+        component: () => import('staffApp/components/clients/ClientEdit'),
       },
     ],
   },
