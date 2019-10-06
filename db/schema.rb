@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_03_075155) do
+ActiveRecord::Schema.define(version: 2019_10_06_092039) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -35,6 +35,8 @@ ActiveRecord::Schema.define(version: 2019_10_03_075155) do
     t.string "serial_number", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "organization_id"
+    t.index ["organization_id"], name: "index_equipment_on_organization_id"
     t.index ["type_equipment_id"], name: "index_equipment_on_type_equipment_id"
   end
 
@@ -66,5 +68,6 @@ ActiveRecord::Schema.define(version: 2019_10_03_075155) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  add_foreign_key "equipment", "organizations"
   add_foreign_key "equipment", "type_equipments"
 end
