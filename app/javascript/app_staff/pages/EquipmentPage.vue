@@ -6,15 +6,18 @@
       div.col-8
         EquipmentList(:items="equipmentItems")
       div.col-4
+        EquipmentForm(@equipment-created="onEquipmentCreated")
 </template>
 
 <script>
 import { QPage } from 'quasar';
 import EquipmentList from 'staffApp/components/equipments/EquipmentList';
+import EquipmentForm from 'staffApp/components/equipments/EquipmentForm';
 import Api from 'staffApi';
 
 export default {
   components: {
+    EquipmentForm,
     EquipmentList,
   },
 
@@ -33,6 +36,10 @@ created() {
       Api.equipments.fetchAll().then(data => {
         this.equipmentItems = data;
       });
+    },
+
+    onEquipmentCreated(equipment) {
+      this.equipmentItems.push(equipment);
     },
   },
 };

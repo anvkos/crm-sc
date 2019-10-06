@@ -33,7 +33,7 @@ export default {
       columns: [
         { name: 'id', label: '#', field: 'id', align: 'left', sortable: true },
         { name: 'name', label: 'Name', field: 'name', sortable: true },
-        { name: 'type', label: 'Type', field: 'type_name', sortable: true },
+        { name: 'type', label: 'Type', field: 'type_equipment_name', sortable: true },
         { name: 'serial_number', label: 'Serial Number', field: 'serial_number', sortable: true },
         { name: 'actions', label: 'Actions', field: 'id' },
       ],

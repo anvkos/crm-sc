@@ -6,6 +6,7 @@ export const VALIDATION_ERRORS = {
   only_numbers: 'Must be only numbers.',
   email: "Email is invalid.",
   minumim_length: (min = MINIMUM_LENGTH) => `Must be at least ${min} characters.`,
+  select: (name) => `Please select type of ${name}.`,
 };
 
 export const validatorErrors = {
