@@ -13,7 +13,9 @@ Rails.application.routes.draw do
           post 'verify_uniqueness'
         end
       end
-      resources :organizations
+      resources :organizations do
+        post :clients, on: :member, to: 'clients_organizations#add_client'
+      end
       resources :staffs, only: %i[index create show update]
       resources :equipment, only: %i[index create show update] do
         collection do
