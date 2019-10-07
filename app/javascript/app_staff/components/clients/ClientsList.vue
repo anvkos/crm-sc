@@ -10,6 +10,7 @@
       template(v-slot:body-cell-actions="props")
         QTd(:props="props")
           QBtn(label="edit" flat color="green" size="sm" :to="{ name: 'clients.edit', params: { id: props.value } }")
+          QBtn(label="organizations" flat color="green" size="sm" :to="{ name: 'clients.organizations', params: { id: props.value } }")
 </template>
 
 <script>

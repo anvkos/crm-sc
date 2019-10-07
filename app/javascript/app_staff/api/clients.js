@@ -27,10 +27,23 @@ export const update = (id, params) => request({
   data: { client: params },
 });
 
+export const fetchOrganizations = (id, params) => request({
+  endpoint: `/clients/${id}/organizations`,
+  params: params,
+});
+
+export const addOrganization = (id, params) => request({
+  endpoint: `/clients/${id}/organizations`,
+  method: 'post',
+  data: { client: params },
+});
+
 export default {
   fetchAll,
   create,
   fetch,
   update,
   verifyUniqueness,
+  fetchOrganizations,
+  addOrganization,
 };

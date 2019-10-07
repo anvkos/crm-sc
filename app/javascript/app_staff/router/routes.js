@@ -18,6 +18,11 @@ export default [
         name: 'clients.edit',
         component: () => import('staffApp/components/clients/ClientEdit'),
       },
+      {
+        path: ':id/organizations',
+        name: 'clients.organizations',
+        component: () => import('staffApp/components/clients/ClientOrganizations'),
+      },
     ],
   },
   {
