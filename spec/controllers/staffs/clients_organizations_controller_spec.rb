@@ -23,6 +23,11 @@ RSpec.describe Staffs::ClientsOrganizationsController, type: :controller do
           expect(response).to have_http_status(:ok)
         end
 
+        it 'returns client json schema' do
+          post :add_client, params: params
+          expect(response).to match_response_schema('clients/client')
+        end
+
         it 'saves client_organization in the database' do
           expect do
             post :add_client, params: params
@@ -73,6 +78,11 @@ RSpec.describe Staffs::ClientsOrganizationsController, type: :controller do
         it 'returns 200 status code' do
           post :add_organization, params: params
           expect(response).to have_http_status(:ok)
+        end
+
+        it 'returns organization json schema' do
+          post :add_organization, params: params
+          expect(response).to match_response_schema('organizations/organization')
         end
 
         it 'saves client_organization in the database' do
