@@ -114,4 +114,30 @@ RSpec.describe Staffs::ClientsOrganizationsController, type: :controller do
       end
     end
   end
+
+  describe "GET #clients" do
+    let!(:organization) { create(:organization) }
+    let!(:clients) { create_list(:client, 2) }
+
+    before do
+      clients.each { |client| organization.clients << client }
+    end
+
+    context 'when user authenticated' do
+      sign_in_staff
+      before { get :clients, params: { id: organization.id, format: :json } }
+
+      it 'returns http success' do
+        expect(response).to have_http_status(:success)
+      end
+
+      it 'returns a list of clients' do
+        expect(response.body).to have_json_size(2).at_path('data')
+      end
+
+      it 'returns clients json schema' do
+        expect(response).to match_response_schema('clients/clients')
+      end
+    end
+  end
 end
