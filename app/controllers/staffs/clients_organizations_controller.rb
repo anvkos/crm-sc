@@ -18,6 +18,11 @@ class Staffs::ClientsOrganizationsController < Staffs::BaseController
     render json: OrganizationSerializer.new(@organization)
   end
 
+  def organizations
+    @client = Client.find(params[:id])
+    render json: OrganizationSerializer.new(@client.organizations)
+  end
+
   private
 
   def organization_params
