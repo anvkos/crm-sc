@@ -12,6 +12,7 @@ Rails.application.routes.draw do
         collection do
           post 'verify_uniqueness'
         end
+        post :organizations, on: :member, to: 'clients_organizations#add_organization'
       end
       resources :organizations do
         post :clients, on: :member, to: 'clients_organizations#add_client'
