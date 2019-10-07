@@ -10,6 +10,9 @@
       :selected.sync="selected"
       :selected-rows-label="selectedLabel"
     )
+      template(v-slot:body-cell-actions="props")
+        QTd(:props="props")
+          QBtn(label="clients" flat color="blue" size="sm" :to="{ name: 'organizations.clients', params: { id: props.value } }")
       template(v-if="selected.length > 0" v-slot:bottom-row)
         QTr
           QTd(colspan="100%" class="q-pa-md q-gutter-sm")
@@ -43,6 +46,7 @@ export default {
         { name: 'kind', label: 'Type',field: 'kind', },
         { name: 'inn', label: 'INN',field: 'inn', },
         { name: 'ogrn', label: 'OGRN',field: 'ogrn', },
+        { name: 'actions', label: 'Actions', field: 'id' },
       ],
       pagination: {
         rowsPerPage: 20,

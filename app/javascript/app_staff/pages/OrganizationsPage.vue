@@ -1,8 +1,11 @@
 <template lang="pug">
   QPage
-    div(class="row")
-      OrganizationsList(:items="organizations" class="col-8" @organizations-deleted="onOrganizationDeleted")
-      OrganizationForm(class="col-4" @organization-created="onOrganizationCreated")
+    .row
+      .col-8
+        OrganizationsList(:items="organizations" @organizations-deleted="onOrganizationDeleted")
+      .col-4
+        OrganizationForm(@organization-created="onOrganizationCreated")
+    router-view
 </template>
 
 <script>

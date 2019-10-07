@@ -14,10 +14,16 @@ export const create = (params) => request({
 export const destroy = (id) => request({
   endpoint: `/organizations/${id}`,
   method: 'delete',
-})
+});
+
+export const fetchClients = (id, params) => request({
+  endpoint: `/organizations/${id}/clients`,
+  params: params,
+});
 
 export default {
   fetchAll,
   create,
   destroy,
+  fetchClients,
 };

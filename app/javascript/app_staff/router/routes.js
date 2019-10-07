@@ -9,6 +9,13 @@ export default [
   },
   {
     path: '/organizations', name: 'organizations.index', component: OrganizationsPage,
+    children: [
+      {
+        path: ':id/clients',
+        name: 'organizations.clients',
+        component: () => import('staffApp/components/organizations/OrganizationClients'),
+      },
+    ],
   },
   {
     path: '/clients', name: 'clients.index', component: ClientsPage,
