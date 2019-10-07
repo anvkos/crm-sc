@@ -1,6 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe Client, type: :model do
+  describe 'associations' do
+    it { is_expected.to have_many(:clients_organizations) }
+    it { is_expected.to have_many(:organizations).through(:clients_organizations) }
+  end
+
   describe 'validations' do
     it { is_expected.to validate_presence_of(:fullname) }
     it { is_expected.to validate_length_of(:fullname).is_at_least(5) }
