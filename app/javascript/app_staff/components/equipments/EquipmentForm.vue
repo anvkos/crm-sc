@@ -40,6 +40,19 @@
         :rules="rules.serial_number"
         lazy-rules
       )
+      QSelect(
+        v-model="form.organization_id"
+        outlined
+        :options="organizations"
+        option-value="id"
+        option-label="name"
+        emit-value
+        map-options
+        label="Organization"
+        hint="Select organization"
+        lazy-rules
+        :rules="rules.type"
+      )
       div.row.q-pa-md.q-gutter-md.justify-end
         QBtn(label="Reset" type="reset" color="white" text-color="black")
         QBtn(label="Save" type="submit" color="primary")
@@ -69,6 +82,7 @@ export default {
     return {
       form: {},
       types: [],
+      organizations: [],
       rules: {
         name: [
           value => !!value || VALIDATION_ERRORS.required,
@@ -92,6 +106,7 @@ export default {
   created() {
     this.fetchTypes();
     this.setDataForm(this.equipment);
+    this.fetchOrganization();
   },
 
   methods: {
@@ -122,9 +137,19 @@ export default {
       });
     },
 
+    fetchOrganization() {
+      Api.organizations.fetchAll().then(data => {
+        data.forEach(item => this.organizations.push({
+            id: item.id,
+            name: item.name,
+          })
+        );
+      });
+    },
+
     setDataForm(equipment) {
       if (!equipment) { return; }
-      ['name', 'type_equipment_id', 'serial_number'].forEach(key => {
+      ['name', 'type_equipment_id', 'serial_number', 'organization_id'].forEach(key => {
         this.form[key] = equipment[key];
       });
     },
