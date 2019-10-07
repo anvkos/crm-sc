@@ -31,7 +31,6 @@ export default {
         { name: 'fullname', label: 'Full name',field: 'fullname', sortable: true },
         { name: 'phone', label: 'Phone',field: 'phone', sortable: true },
         { name: 'email', label: 'Email',field: 'email', sortable: true },
-        { name: 'actions', label: 'Actions', field: 'id' },
       ],
       pagination: {
         rowsPerPage: 20,

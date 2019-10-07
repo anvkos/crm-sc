@@ -21,9 +21,16 @@ export const fetchClients = (id, params) => request({
   params: params,
 });
 
+export const addClient = (id, params) => request({
+  endpoint: `/organizations/${id}/clients`,
+  method: 'post',
+  data: { organization: params },
+});
+
 export default {
   fetchAll,
   create,
   destroy,
   fetchClients,
+  addClient,
 };

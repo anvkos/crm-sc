@@ -1,16 +1,20 @@
 <template lang="pug">
   AppModal(:title="'Clients of organization'")
-    ClientsList(:clients="clients")
+    template
+      AddClientForm(:organization="{ id: id }" @client-added="onClientAdded")
+      ClientsList(:clients="clients")
 </template>
 
 <script>
 import Api from 'staffApi';
 import AppModal from 'staffApp/components/AppModal';
 import ClientsList from 'staffApp/components/organizations/ClientsList';
+import AddClientForm from 'staffApp/components/organizations/AddClientForm';
 
 export default {
   components: {
     AppModal,
+    AddClientForm,
     ClientsList,
   },
 
@@ -35,6 +39,10 @@ export default {
       Api.organizations.fetchClients(id).then(data => {
         this.clients = data;
       });
+    },
+
+    onClientAdded(client) {
+      this.clients.push(client);
     },
   },
 };
