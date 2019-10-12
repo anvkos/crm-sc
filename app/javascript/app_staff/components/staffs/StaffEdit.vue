@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import Api from 'staffApi';
+import { mapGetters, mapActions } from 'vuex';
 import AppModal from 'staffApp/components/AppModal';
 import StaffForm from 'staffApp/components/staffs/StaffForm';
 
@@ -15,13 +15,11 @@ export default {
     StaffForm,
   },
 
-  data() {
-    return {
-      staff: null,
-    };
-  },
-
   computed: {
+    ...mapGetters({
+      staff: 'staffs/staff',
+    }),
+
     id() {
       return this.$route.params.id;
     },
@@ -32,11 +30,9 @@ export default {
   },
 
   methods: {
-    fetchStaff(id) {
-      Api.staffs.fetch(id).then(data => {
-        this.staff = data;
-      });
-    },
+    ...mapActions({
+      fetchStaff: 'staffs/fetchStaff',
+    }),
 
     onStaffUpdated() {
       this.$router.go(-1);

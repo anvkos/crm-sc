@@ -1,7 +1,7 @@
 <template lang="pug">
   q-page
     div.row
-      h4.q-mb-md.q-mt-sm Staffs232
+      h4.q-mb-md.q-mt-sm Staffs
     div.row
       div.col-8
         staffs-list(:staffs="staffs")
@@ -11,9 +11,9 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex';
 import StaffsList from 'staffApp/components/staffs/StaffsList';
 import StaffForm from 'staffApp/components/staffs/StaffForm';
-import Api from 'staffApi';
 
 export default {
   components: {
@@ -21,10 +21,10 @@ export default {
     StaffForm,
   },
 
-  data() {
-    return {
-      staffs: [],
-    };
+  computed: {
+    ...mapGetters({
+      'staffs': 'staffs/staffs',
+    }),
   },
 
   created() {
@@ -32,12 +32,9 @@ export default {
   },
 
   methods: {
-    fetchStaffs() {
-      this.loading = true;
-      Api.staffs.fetchAll().then(data => {
-        this.staffs = data;
-      });
-    },
+    ...mapActions({
+      fetchStaffs: 'staffs/fetchStaffs',
+    }),
 
     onStaffCreated(staff) {
       this.staffs.push(staff);
