@@ -1,7 +1,7 @@
 <template lang="pug">
-  AppModal(:title="'Edit'")
+  app-modal(:title="'Edit'")
     .form-container
-      StaffForm(v-if="staff" :staff="staff" @staff-updated="onStaffUpdated")
+      staff-form(v-if="staff" :staff="staff" @staff-updated="onStaffUpdated")
 </template>
 
 <script>

@@ -1,6 +1,6 @@
 <template lang="pug">
   div.q-pa-md
-    QTable(
+    q-table(
       title="Staffs"
       :data="staffs"
       :columns="columns"
@@ -8,8 +8,8 @@
       :pagination.sync="pagination"
     )
       template(v-slot:body-cell-actions="props")
-        QTd(:props="props")
-          QBtn(label="edit" flat color="green" size="sm" :to="{ name: 'staffs.edit', params: { id: props.value } }")
+        q-td(:props="props")
+          q-btn(label="edit" flat color="green" size="sm" :to="{ name: 'staffs.edit', params: { id: props.value } }")
 </template>
 
 <script>
