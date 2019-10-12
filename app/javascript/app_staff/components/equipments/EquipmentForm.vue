@@ -2,13 +2,13 @@
   div.q-pa-md.rounded-borders
     h6.q-mb-md.q-mt-sm
       | {{ editing ? 'Equipment' : 'Add Equipment'}}
-    QForm(
+    q-form(
       class="q-gutter-y-md column"
       ref="equipmentForm"
       @reset="onReset"
       @submit="onSubmit"
     )
-      QInput(
+      q-input(
         v-model="form.name"
         outlined
         label="Name *"
@@ -17,7 +17,7 @@
         :rules="rules.name"
         lazy-rules
       )
-      QSelect(
+      q-select(
         v-model="form.type_equipment_id"
         outlined
         :options="types"
@@ -30,7 +30,7 @@
         lazy-rules
         :rules="rules.type"
       )
-      QInput(
+      q-input(
         v-model="form.serial_number"
         ref="inputSerialNumber"
         outlined
@@ -40,7 +40,7 @@
         :rules="rules.serial_number"
         lazy-rules
       )
-      QSelect(
+      q-select(
         v-model="form.organization_id"
         outlined
         :options="organizations"
@@ -54,8 +54,8 @@
         :rules="rules.type"
       )
       div.row.q-pa-md.q-gutter-md.justify-end
-        QBtn(label="Reset" type="reset" color="white" text-color="black")
-        QBtn(label="Save" type="submit" color="primary")
+        q-btn(label="Reset" type="reset" color="white" text-color="black")
+        q-btn(label="Save" type="submit" color="primary")
 </template>
 
 <script>

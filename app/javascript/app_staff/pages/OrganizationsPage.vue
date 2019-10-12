@@ -1,10 +1,10 @@
 <template lang="pug">
-  QPage
+  q-page
     .row
       .col-8
-        OrganizationsList(:items="organizations" @organizations-deleted="onOrganizationDeleted")
+        organizations-list(:items="organizations" @organizations-deleted="onOrganizationDeleted")
       .col-4
-        OrganizationForm(@organization-created="onOrganizationCreated")
+        organization-form(@organization-created="onOrganizationCreated")
     router-view
 </template>
 

@@ -1,12 +1,12 @@
 <template lang="pug">
-  QPage
+  q-page
     div.row
       h4.q-mb-md.q-mt-sm Equipment
     div.row
       div.col-8
-        EquipmentList(:items="equipmentItems")
+        equipment-list(:items="equipmentItems")
       div.col-4
-        EquipmentForm(@equipment-created="onEquipmentCreated")
+        equipment-form(@equipment-created="onEquipmentCreated")
     router-view
 </template>
 

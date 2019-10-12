@@ -1,6 +1,6 @@
 <template lang="pug">
-  QPage
-    AppDashboard
+  q-page
+    app-dashboard
 </template>
 
 <script>

@@ -1,6 +1,6 @@
 <template lang="pug">
   div.q-pa-md
-    QTable(
+    q-table(
       title="Clients"
       :data="clients"
       :columns="columns"

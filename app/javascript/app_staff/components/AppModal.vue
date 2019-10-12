@@ -1,11 +1,11 @@
 <template lang="pug">
-  QDialog(v-model="show" @hide="onClose")
-    QCard
-      QCardSection.row.items-center
+  q-dialog(v-model="show" @hide="onClose")
+    q-card
+      q-card-section.row.items-center
         div.text-h6 {{ title }}
-        QSpace
-        QBtn(icon="fas fa-times" flat round dense v-close-popup)
-      QCardSection
+        q-space
+        q-btn(icon="fas fa-times" flat round dense v-close-popup)
+      q-card-section
         slot
 </template>
 

@@ -2,13 +2,13 @@
   div.q-pa-md.rounded-borders
     h6.q-mb-md.q-mt-sm
       | {{ editing ? 'Client' : 'Add Client' }}
-    QForm(
+    q-form(
       class="q-gutter-y-md column"
       ref="clientForm"
       @reset="onReset"
       @submit="onSubmit"
     )
-      QInput(
+      q-input(
         v-model="form.fullname"
         outlined
         label="Fullname *"
@@ -17,7 +17,7 @@
         :rules="rules.fullname"
         lazy-rules
       )
-      QInput(
+      q-input(
         v-model="form.phone"
         ref="inputPhone"
         outlined
@@ -30,7 +30,7 @@
         :error-message="errors.phone[0]"
         lazy-rules
       )
-      QInput(
+      q-input(
         v-model="form.email"
         ref="inputEmail"
         outlined
@@ -45,8 +45,8 @@
         @blur="onBlurEmail"
       )
       div.row.q-pa-md.q-gutter-md.justify-end
-        QBtn(label="Reset" type="reset" color="white" text-color="black")
-        QBtn(label="Save" type="submit" color="primary" :disable="disabled")
+        q-btn(label="Reset" type="reset" color="white" text-color="black")
+        q-btn(label="Save" type="submit" color="primary" :disable="disabled")
 </template>
 
 <script>

@@ -1,16 +1,16 @@
 <template lang="pug">
-  QHeader(reveal)
-    QToolbar
-      QBtn(flat @click="toggleVisibilitySidebar")
-        QIcon( name="fas fa-bars")
-      QToolbar-title
-        QAvatar
+  q-header(reveal)
+    q-toolbar
+      q-btn(flat @click="toggleVisibilitySidebar")
+        q-icon( name="fas fa-bars")
+      q-toolbar-title
+        q-avatar
           img(:src="require('staffImages/diamond.svg')")
         span(class="text-white text-weight-bold") Service Center
 
       span(v-if="user") {{ user.fullname }}
-      QBtn(flat no-caps color="white" label="Sign out" @click="signOut")
-        QIcon(name="fas fa-sign-out-alt" right size="xs")
+      q-btn(flat no-caps color="white" label="Sign out" @click="signOut")
+        q-icon(name="fas fa-sign-out-alt" right size="xs")
 </template>
 
 <script>

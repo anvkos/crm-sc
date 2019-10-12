@@ -1,15 +1,15 @@
 <template lang="pug">
-  QDrawer(
+  q-drawer(
     v-model="visible"
     :width="200"
     :breakpoint="700"
     elevated
     bordered
   )
-    QScrollArea(class="fit")
-      QList(padding class="text-primary")
-        QItem(v-for="(item, index) in menuItems" :key="index" :to="item.route")
-            QItemSection {{ item.label }}
+    q-scroll-area(class="fit")
+      q-list(padding class="text-primary")
+        q-item(v-for="(item, index) in menuItems" :key="index" :to="item.route")
+          q-item-section {{ item.label }}
 </template>
 
 <script>

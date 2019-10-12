@@ -1,8 +1,8 @@
 <template lang="pug">
-  AppModal(:title="'Organizations of client'")
+  app-modal(:title="'Organizations of client'")
     template
-      AddOrganizationForm(:client="{ id }" @organization-added="onOrganizationAdded")
-      OrganizationsList(:items="organizations")
+      add-organization-form(:client="{ id }" @organization-added="onOrganizationAdded")
+      organizations-list(:items="organizations")
 </template>
 
 <script>

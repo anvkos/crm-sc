@@ -1,12 +1,12 @@
 <template lang="pug">
-  QPage
+  q-page
     div.row
       h4.q-mb-md.q-mt-sm Clients
     div.row
       div.col-8
-        ClientsList(:clients="clients")
+        clients-list(:clients="clients")
       div.col-4
-        ClientForm(@client-created="onClientCreated")
+        client-form(@client-created="onClientCreated")
     router-view
 </template>
 

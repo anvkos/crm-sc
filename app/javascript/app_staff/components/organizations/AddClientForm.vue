@@ -1,11 +1,11 @@
 <template lang="pug">
-  QForm(
+  q-form(
     class="q-gutter-y-md column"
     ref="addClientForm"
     @reset="onReset"
     @submit="onSubmit"
   )
-    QSelect(
+    q-select(
       v-model="form.client_id"
       dense
       outlined
@@ -20,7 +20,7 @@
       :rules="rules.type"
     )
       template(v-slot:after)
-        QBtn(type="submit" label="Add" color="primary")
+        q-btn(type="submit" label="Add" color="primary")
 </template>
 
 <script>

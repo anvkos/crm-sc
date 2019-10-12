@@ -1,6 +1,6 @@
 <template lang="pug">
   div.q-pa-md
-    QTable(
+    q-table(
       title="Organizations"
       :data="items"
       :columns="columns"
@@ -11,12 +11,12 @@
       :selected-rows-label="selectedLabel"
     )
       template(v-slot:body-cell-actions="props")
-        QTd(:props="props")
-          QBtn(label="clients" flat color="blue" size="sm" :to="{ name: 'organizations.clients', params: { id: props.value } }")
+        q-td(:props="props")
+          q-btn(label="clients" flat color="blue" size="sm" :to="{ name: 'organizations.clients', params: { id: props.value } }")
       template(v-if="selected.length > 0" v-slot:bottom-row)
-        QTr
-          QTd(colspan="100%" class="q-pa-md q-gutter-sm")
-            QBtn(label="Delete" size="sm" @click="onDelete")
+        q-tr
+          q-td(colspan="100%" class="q-pa-md q-gutter-sm")
+            q-btn(label="Delete" size="sm" @click="onDelete")
             div.float-right {{ selectedNames }}
 
 </template>

@@ -1,7 +1,7 @@
 <template lang="pug">
-  AppModal(:title="'Edit'")
+  app-modal(:title="'Edit'")
     .form-container
-      ClientForm(v-if="client" :client="client" @client-updated="onClientUpdated")
+      client-form(v-if="client" :client="client" @client-updated="onClientUpdated")
 </template>
 
 <script>

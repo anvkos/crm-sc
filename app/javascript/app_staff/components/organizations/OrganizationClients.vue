@@ -1,8 +1,8 @@
 <template lang="pug">
-  AppModal(:title="'Clients of organization'")
+  app-modal(:title="'Clients of organization'")
     template
-      AddClientForm(:organization="{ id: id }" @client-added="onClientAdded")
-      ClientsList(:clients="clients")
+      add-client-form(:organization="{ id: id }" @client-added="onClientAdded")
+      clients-list(:clients="clients")
 </template>
 
 <script>

@@ -1,13 +1,13 @@
 <template lang="pug">
   div.q-pa-md.rounded-borders
     h6.q-mb-md.q-mt-sm Add Organization
-    QForm(
+    q-form(
       class="q-gutter-y-md column"
       ref="organizationForm"
       @reset="onReset"
       @submit="onSubmit"
     )
-      QInput(
+      q-input(
         v-model="form.name"
         outlined
         label="Name *"
@@ -16,7 +16,7 @@
         :rules="rules.name"
         lazy-rules
       )
-      QSelect(
+      q-select(
         v-model="form.kind"
         outlined
         :options="kinds"
@@ -25,7 +25,7 @@
         lazy-rules
         :rules="rules.kind"
       )
-      QInput(
+      q-input(
         v-model="form.inn"
         outlined
         label="INN *"
@@ -33,7 +33,7 @@
         :rules="rules.inn"
         lazy-rules
       )
-      QInput(
+      q-input(
         v-model="form.ogrn"
         outlined
         label="OGRN *"
@@ -42,8 +42,8 @@
         :rules="rules.ogrn"
       )
       div.row.q-pa-md.q-gutter-md.justify-end
-        QBtn(label="Reset" type="reset" color="white" text-color="black")
-        QBtn(label="Save" type="submit" color="secondary")
+        q-btn(label="Reset" type="reset" color="white" text-color="black")
+        q-btn(label="Save" type="submit" color="secondary")
 
 </template>
 

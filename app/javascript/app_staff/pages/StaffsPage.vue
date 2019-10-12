@@ -1,12 +1,12 @@
 <template lang="pug">
-  QPage
+  q-page
     div.row
-      h4.q-mb-md.q-mt-sm Staffs
+      h4.q-mb-md.q-mt-sm Staffs232
     div.row
       div.col-8
-        StaffsList(:staffs="staffs")
+        staffs-list(:staffs="staffs")
       div.col-4
-        StaffForm(@staff-created="onStaffCreated")
+        staff-form(@staff-created="onStaffCreated")
     router-view
 </template>
 

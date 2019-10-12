@@ -1,7 +1,7 @@
 <template lang="pug">
-  AppModal(:title="'Edit'")
+  app-modal(:title="'Edit'")
     .form-container
-      EquipmentForm(v-if="equipment" :equipment="equipment" @equipment-updated="onEquipmentUpdated")
+      equipment-form(v-if="equipment" :equipment="equipment" @equipment-updated="onEquipmentUpdated")
 </template>
 
 <script>

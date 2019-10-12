@@ -1,22 +1,21 @@
 <template lang="pug">
   div#app.q-pa-md
-    QLayout(view="hhh Lpr fff" class="shadow-2 rounded-borders")
-      AppHeader(
+    q-layout(view="hhh Lpr fff" class="shadow-2 rounded-borders")
+      app-header(
         :user="user"
         @click-toggle-visibility-sidebar="toggleVisibilitySidebar"
         @user-signout="signOut"
       )
-      AppSidebar(:visible="sidebarVisible")
+      app-sidebar(:visible="sidebarVisible")
 
-      QPageContainer
-        QInnerLoading(:showing="loading")
-          QSpinner(
+      q-page-container
+        q-inner-loading(:showing="loading")
+          q-spinner(
             color="primary"
             size="3em"
             :thickness="5"
           )
         router-view
-
 </template>
 
 <script>
