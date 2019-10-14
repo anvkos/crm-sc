@@ -1,5 +1,13 @@
 import api from 'staffApi';
-import { SET_CLIENTS, SET_CLIENT, UPDATE_CLIENT, ADD_CLIENT } from './mutation-types';
+import {
+  SET_CLIENTS,
+  SET_CLIENT,
+  UPDATE_CLIENT,
+  ADD_CLIENT,
+  SET_CLIENT_ORGANIZATIONS,
+  ADD_CLIENT_ORGANIZATION,
+
+} from './mutation-types';
 
 export const fetchAll = ({ commit }) => {
   api.clients.fetchAll().then(data => {
@@ -26,9 +34,23 @@ export const update = ({ commit }, { id, params }) => {
   });
 };
 
+export const fetchOrganizations = ({ commit }, id) => {
+  api.clients.fetchOrganizations(id, ).then(data => {
+    commit(SET_CLIENT_ORGANIZATIONS, data);
+  });
+};
+
+export const addOrganization = ({ commit }, { id, organization }) => {
+  api.clients.addOrganization(id, organization).then(data => {
+    commit(ADD_CLIENT_ORGANIZATION, data);
+  });
+};
+
 export default {
   fetchAll,
   fetchSingle,
   create,
   update,
+  fetchOrganizations,
+  addOrganization,
 };

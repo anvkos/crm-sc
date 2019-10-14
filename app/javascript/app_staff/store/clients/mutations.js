@@ -17,4 +17,12 @@ export default {
     const index = state.clients.findIndex(item => item.id === client.id);
     state.clients[index] = Object.assign({}, client);
   },
+
+  [types.SET_CLIENT_ORGANIZATIONS](state, organizations) {
+    state.clientOrganizations = organizations;
+  },
+
+  [types.ADD_CLIENT_ORGANIZATION](state, organization) {
+    state.clientOrganizations.push(organization);
+  },
 };
