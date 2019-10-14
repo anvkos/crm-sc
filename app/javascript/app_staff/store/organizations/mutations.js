@@ -22,4 +22,12 @@ export default {
     const index = state.organizations.findIndex(item => item.id === id);
     state.organizations.splice(index, 1);
   },
+
+  [types.SET_ORGANIZATION_CLIENTS](state, clients) {
+    state.organizationClients = clients;
+  },
+
+  [types.ADD_ORGANIZATION_CLIENT](state, client) {
+    state.organizationClients.push(client);
+  },
 };

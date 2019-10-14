@@ -25,7 +25,7 @@
 
 <script>
 import { QForm, QSelect } from 'quasar';
-import Api from 'staffApi';
+import { mapGetters, mapActions } from 'vuex';
 import { VALIDATION_ERRORS } from 'staffApp/mixins/validator';
 
 export default {
@@ -43,7 +43,6 @@ export default {
 
   data() {
     return {
-      clients: [],
       form: {},
       rules: {
         type: [value => !!value || VALIDATION_ERRORS.select('client')],
@@ -51,35 +50,31 @@ export default {
     };
   },
 
+  computed: {
+    ...mapGetters({
+      clients: 'clients/clients',
+    }),
+  },
+
   created() {
     this.fetchClients();
   },
 
   methods: {
+    ...mapActions({
+      fetchClients: 'clients/fetchAll',
+      addOrganizationClient: 'organizations/addClient',
+    }),
+
     onSubmit() {
-      Api.organizations.addClient(this.organization.id, this.form).then(data => {
-        this.onAdded(data);
+      this.addOrganizationClient({ id: this.organization.id, client: this.form }).then(() => {
         this.onReset();
-      });
+      })
     },
 
     onReset() {
       this.form = {};
       this.$refs.addClientForm.resetValidation();
-    },
-
-    fetchClients() {
-      Api.clients.fetchAll().then(data => {
-        data.forEach(item => this.clients.push({
-            id: item.id,
-            fullname: item.fullname,
-          })
-        );
-      });
-    },
-
-    onAdded(client) {
-      this.$emit('client-added', client);
     },
   },
 };

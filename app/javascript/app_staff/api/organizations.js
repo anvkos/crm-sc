@@ -26,7 +26,7 @@ export const destroy = (id) => request({
   method: 'delete',
 });
 
-export const fetchClients = (id, params) => request({
+export const fetchClients = (id, params = {}) => request({
   endpoint: `/organizations/${id}/clients`,
   params: params,
 });
