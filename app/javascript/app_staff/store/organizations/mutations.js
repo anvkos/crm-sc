@@ -5,8 +5,17 @@ export default {
     state.organizations = organizations;
   },
 
+  [types.SET_ORGANIZATION](state, organization) {
+    state.organization = organization;
+  },
+
   [types.ADD_ORGANIZATION](state, organization) {
     state.organizations.push(organization);
+  },
+
+  [types.UPDATE_ORGANIZATION](state, organization) {
+    const index = state.organizations.findIndex(item => item.id === organization.id);
+    state.organizations[index] = Object.assign({}, organization);
   },
 
   [types.DESTROY_ORGANIZATION](state, id) {

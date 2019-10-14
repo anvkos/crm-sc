@@ -12,6 +12,7 @@
     )
       template(v-slot:body-cell-actions="props")
         q-td(:props="props")
+          q-btn(label="edit" flat color="green" size="sm" :to="{ name: 'organizations.edit', params: { id: props.value } }")
           q-btn(label="clients" flat color="blue" size="sm" :to="{ name: 'organizations.clients', params: { id: props.value } }")
       template(v-if="selected.length > 0" v-slot:bottom-row)
         q-tr

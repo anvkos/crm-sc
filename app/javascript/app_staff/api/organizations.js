@@ -5,9 +5,19 @@ export const fetchAll = (params) => request({
   params,
 });
 
+export const fetch = (id) => request({
+  endpoint: `/organizations/${id}`,
+});
+
 export const create = (params) => request({
   endpoint: '/organizations',
   method: 'post',
+  data: { organization: params },
+});
+
+export const update = (id, params) => request({
+  endpoint: `/organizations/${id}`,
+  method: 'patch',
   data: { organization: params },
 });
 
@@ -29,7 +39,9 @@ export const addClient = (id, params) => request({
 
 export default {
   fetchAll,
+  fetch,
   create,
+  update,
   destroy,
   fetchClients,
   addClient,

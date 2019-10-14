@@ -50,7 +50,7 @@ export const validator = {
     },
 
     isLengthGreatThan(value, min = MINIMUM_LENGTH) {
-      return value && value.length >= min ? true : false;
+      return value && String(value).length >= min ? true : false;
     },
 
     isEmail(value) {

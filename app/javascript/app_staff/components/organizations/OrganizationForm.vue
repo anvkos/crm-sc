@@ -1,6 +1,7 @@
 <template lang="pug">
   div.q-pa-md.rounded-borders
-    h6.q-mb-md.q-mt-sm Add Organization
+    h6.q-mb-md.q-mt-sm
+      | {{ editing ? 'Organization' : 'Add Organization'}}
     q-form(
       class="q-gutter-y-md column"
       ref="organizationForm"
@@ -51,14 +52,7 @@
 import Api from 'staffApi';
 import { mapActions } from 'vuex';
 import { QForm, QInput, QSelect } from 'quasar';
-
-const MINIMUM_LENGTH = 5;
-const ERRORS = {
-  required: 'Field is required',
-  select: 'Please select type of organization',
-  only_numbers: 'Must be only numbers.',
-  minumim_length: (min = MINIMUM_LENGTH) => `Must be at least ${min} characters.`,
-};
+import { validator, validatorErrors, VALIDATION_ERRORS } from 'staffApp/mixins/validator';
 
 const ORGANIZATION_KINDS = ['ИП', 'ЮЛ'];
 
@@ -69,42 +63,67 @@ export default {
     QSelect,
   },
 
+  mixins: [validator, validatorErrors],
+
+  props: {
+    organization: {
+      type: Object,
+    },
+  },
+
+  computed: {
+    editing() {
+      return !!this.organization;
+    },
+  },
+
   data() {
     return {
       form: {},
       kinds: ORGANIZATION_KINDS,
       rules: {
         name: [
-          value => !!value || ERRORS.required,
-          value => this.isLengthGreatThan(value, 5) || ERRORS.minumim_length(5)
+          value => !!value || VALIDATION_ERRORS.required,
+          value => this.isLengthGreatThan(value, 5) || VALIDATION_ERRORS.minumim_length(5)
         ],
-        kind: [value => !!value || ERRORS.select],
+        kind: [value => !!value || VALIDATION_ERRORS.select('organization')],
         inn: [
-          value => !!value || ERRORS.required,
-          value => this.isNumber(value) || ERRORS.only_numbers,
-          value => this.isLengthGreatThan(value, 10) || ERRORS.minumim_length(10)
+          value => !!value || VALIDATION_ERRORS.required,
+          value => this.isNumber(value) || VALIDATION_ERRORS.only_numbers,
+          value => this.isLengthGreatThan(value, 10) || VALIDATION_ERRORS.minumim_length(10),
         ],
         ogrn: [
-          value => !!value || ERRORS.required,
-          value => this.isNumber(value) || ERRORS.only_numbers,
-          value => this.isLengthGreatThan(value, 13) || ERRORS.minumim_length(13)
+          value => !!value || VALIDATION_ERRORS.required,
+          value => this.isNumber(value) || VALIDATION_ERRORS.only_numbers,
+          value => this.isLengthGreatThan(value, 13) || VALIDATION_ERRORS.minumim_length(13),
         ],
       }
     };
   },
 
+  created() {
+    this.setDataForm(this.organization);
+  },
+
   methods: {
     ...mapActions({
       createOrganization: 'organizations/create',
+      updateOrganization: 'organizations/update',
     }),
 
+    setDataForm(organization) {
+      if (!organization) { return; }
+      ['name', 'kind', 'inn', 'ogrn'].forEach(key => {
+        this.form[key] = organization[key];
+      });
+    },
+
     onSubmit() {
-      this.createOrganization(this.form).then(() => {
-        this.onReset();
-      }).catch(error => {
-        const errors = error.response.data.errors;
-        console.log('errors', {...errors});
-      })
+      if (this.editing == true) {
+        this.update();
+      } else {
+        this.create();
+      }
     },
 
     onReset() {
@@ -112,12 +131,27 @@ export default {
       this.$refs.organizationForm.resetValidation();
     },
 
-    isNumber(value) {
-      return Number.isInteger(Number(value));
+    onUpdate() {
+      this.$emit('organization-updated');
     },
 
-    isLengthGreatThan(value, min = MINIMUM_LENGTH) {
-      return value && value.length >= min ? true : false;
+    create() {
+      this.createOrganization(this.form).then(data => {
+        this.onReset();
+      }).catch(error => {
+        const errors = error.response.data.errors;
+        this.fillErrors(errors);
+      });
+    },
+
+    update() {
+      this.updateOrganization({ id: this.organization.id, params: this.form }).then(() => {
+        this.onUpdate();
+        this.onReset();
+      }).catch(error => {
+        const errors = error.response.data.errors;
+        this.fillErrors(errors);
+      });
     },
   },
 };
