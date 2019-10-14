@@ -50,6 +50,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
 import { QForm, QInput, QSelect } from 'quasar';
 import { validator, validatorErrors, VALIDATION_ERRORS } from 'staffApp/mixins/validator';
 import Api from 'staffApi';
@@ -113,6 +114,11 @@ export default {
   },
 
   methods: {
+    ...mapActions({
+      updateClient: 'clients/update',
+      createClient: 'clients/create',
+    }),
+
     onBlurEmail() {
       this.$refs.clientForm.validate().then(success => {
         if (success && this.editing === false) {
@@ -135,12 +141,8 @@ export default {
       this.isValidUniqueness = false;
     },
 
-    onCreated(client) {
-      this.$emit('client-created', client);
-    },
-
-    onUpdate(client) {
-      this.$emit('client-updated', client);
+    onUpdate() {
+      this.$emit('client-updated');
     },
 
     verifyUniqueness() {
@@ -161,19 +163,17 @@ export default {
     },
 
     create() {
-      Api.clients.create(this.form).then(data => {
-        this.onCreated(data);
+      this.createClient(this.form).then(data => {
         this.onReset();
       }).catch(error => {
         const errors = error.response.data.errors;
         this.fillErrors(errors);
-      })
+      });
     },
 
     update() {
-      const { id } = this.client;
-      Api.clients.update(id, this.form).then(data => {
-        this.onUpdate(data);
+      this.updateClient({ id: this.client.id, params: this.form }).then(() => {
+        this.onUpdate();
         this.onReset();
       }).catch(error => {
         const errors = error.response.data.errors;

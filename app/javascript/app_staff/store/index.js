@@ -4,6 +4,7 @@ import state from './state';
 import getters from './getters';
 import mutations from './mutations';
 import actions from './actions';
+import clients from './clients';
 import staffs from './staffs';
 
 Vue.use(Vuex);
@@ -17,6 +18,7 @@ export default new Vuex.Store({
   actions,
 
   modules: {
+    clients,
     staffs,
   },
 

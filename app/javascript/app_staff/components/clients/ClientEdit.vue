@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import Api from 'staffApi';
+import { mapGetters, mapActions } from 'vuex';
 import AppModal from 'staffApp/components/AppModal';
 import ClientForm from 'staffApp/components/clients/ClientForm';
 
@@ -15,13 +15,11 @@ export default {
     ClientForm,
   },
 
-  data() {
-    return {
-      client: null,
-    };
-  },
-
   computed: {
+    ...mapGetters({
+      client: 'clients/client',
+    }),
+
     id() {
       return this.$route.params.id;
     },
@@ -32,18 +30,17 @@ export default {
   },
 
   methods: {
-    fetchClient(id) {
-      Api.clients.fetch(id).then(data => {
-        this.client = data;
-      });
-    },
+    ...mapActions({
+      fetchClient: 'clients/fetchSingle',
+    }),
 
     onClientUpdated() {
-      this.$router.go(-1);
+      this.$router.push({ name: 'clients.index'});
     }
   },
 };
 </script>
+
 <style lang="styl" scoped>
   div.form-container {
     width: 400px;

@@ -6,15 +6,15 @@
       div.col-8
         clients-list(:clients="clients")
       div.col-4
-        client-form(@client-created="onClientCreated")
+        client-form
     router-view
 </template>
 
 <script>
 import { QPage } from 'quasar';
+import { mapGetters, mapActions } from 'vuex';
 import ClientsList from 'staffApp/components/clients/ClientsList';
 import ClientForm from 'staffApp/components/clients/ClientForm';
-import Api from 'staffApi';
 
 export default {
   components: {
@@ -22,29 +22,20 @@ export default {
     ClientForm,
   },
 
-  data() {
-    return {
-      loading: true,
-      clients: [],
-    };
+  computed: {
+    ...mapGetters({
+      clients: 'clients/clients',
+    }),
   },
 
   created() {
-    this.fetchClients();
+    this.fetchAll();
   },
 
   methods: {
-    fetchClients() {
-      this.loading = true;
-      Api.clients.fetchAll().then(data => {
-        this.clients = data;
-        this.loading = false;
-      });
-    },
-
-    onClientCreated(client) {
-      this.clients.push(client);
-    },
+    ...mapActions({
+      fetchAll: 'clients/fetchAll',
+    }),
   },
 };
 </script>
