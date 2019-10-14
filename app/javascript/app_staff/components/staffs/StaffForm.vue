@@ -49,6 +49,7 @@
 
 <script>
 import { QForm, QInput } from 'quasar';
+import { mapActions } from 'vuex';
 import Api from 'staffApi';
 import { validator, validatorErrors, VALIDATION_ERRORS } from 'staffApp/mixins/validator';
 
@@ -89,7 +90,7 @@ export default {
   computed: {
     editing() {
       return !!this.staff;
-    }
+    },
   },
 
   created() {
@@ -97,6 +98,11 @@ export default {
   },
 
   methods: {
+    ...mapActions({
+      createStaff: 'staffs/create',
+      updateStaff: 'staffs/update',
+    }),
+
     onSubmit() {
       if (this.editing == true) {
         this.update();
@@ -115,8 +121,8 @@ export default {
       this.$emit('staff-created', staff);
     },
 
-    onUpdate(staff) {
-      this.$emit('staff-updated', staff);
+    onUpdate() {
+      this.$emit('staff-updated');
     },
 
     setDataForm(staff) {
@@ -137,15 +143,14 @@ export default {
     },
 
     update() {
-      const { id } = this.staff;
-      Api.staffs.update(id, this.form).then(data => {
-        this.onUpdate(data);
+      this.updateStaff({ id: this.staff.id, params: this.form }).then(() => {
         this.onReset();
+        this.onUpdate();
       }).catch(error => {
         const errors = error.response.data.errors;
         this.fillErrors(errors);
       });
-    }
+    },
   },
 };
 </script>

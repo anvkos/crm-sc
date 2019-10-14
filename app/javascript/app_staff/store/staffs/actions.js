@@ -1,5 +1,5 @@
 import api from 'staffApi';
-import { SET_STAFFS, SET_STAFF } from './mutation-types';
+import { SET_STAFFS, SET_STAFF, UPDATE_STAFF } from './mutation-types';
 
 export const fetchStaffs = ({ commit }) => {
   api.staffs.fetchAll().then(data => {
@@ -13,7 +13,15 @@ export const fetchStaff = ({ commit }, id) => {
   });
 };
 
+export const update = ({ commit }, { id, params }) => {
+  api.staffs.update(id, params).then(data => {
+    commit(SET_STAFF, data);
+    commit(UPDATE_STAFF, data);
+  });
+};
+
 export default {
   fetchStaffs,
   fetchStaff,
+  update,
 };

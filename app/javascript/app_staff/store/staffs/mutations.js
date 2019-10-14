@@ -1,11 +1,16 @@
-import { SET_STAFFS, SET_STAFF } from './mutation-types';
+import * as types from './mutation-types';
 
 export default {
-  [SET_STAFFS](state, staffs) {
+  [types.SET_STAFFS](state, staffs) {
     state.staffs = staffs;
   },
 
-  [SET_STAFF](state, staff) {
+  [types.SET_STAFF](state, staff) {
     state.staff = staff;
+  },
+
+  [types.UPDATE_STAFF](state, staff) {
+    const index = state.staffs.findIndex(item => item.id === staff.id);
+    state.staffs[index] = Object.assign({}, staff);
   },
 };

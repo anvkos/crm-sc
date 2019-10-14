@@ -35,11 +35,12 @@ export default {
     }),
 
     onStaffUpdated() {
-      this.$router.go(-1);
+      this.$router.push({ name: 'staffs.index' });
     }
   },
 };
 </script>
+
 <style lang="styl" scoped>
   div.form-container {
     width: 400px;
