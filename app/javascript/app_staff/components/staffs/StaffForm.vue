@@ -117,10 +117,6 @@ export default {
       this.clearErrors();
     },
 
-    onCreated(staff) {
-      this.$emit('staff-created', staff);
-    },
-
     onUpdate() {
       this.$emit('staff-updated');
     },
@@ -133,8 +129,7 @@ export default {
     },
 
     create() {
-      Api.staffs.create(this.form).then(data => {
-        this.onCreated(data);
+      this.createStaff(this.form).then(() => {
         this.onReset();
       }).catch(error => {
         const errors = error.response.data.errors;

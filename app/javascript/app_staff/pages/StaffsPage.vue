@@ -6,7 +6,7 @@
       div.col-8
         staffs-list(:staffs="staffs")
       div.col-4
-        staff-form(@staff-created="onStaffCreated")
+        staff-form
     router-view
 </template>
 
@@ -35,10 +35,6 @@ export default {
     ...mapActions({
       fetchStaffs: 'staffs/fetchStaffs',
     }),
-
-    onStaffCreated(staff) {
-      this.staffs.push(staff);
-    },
   },
 };
 </script>

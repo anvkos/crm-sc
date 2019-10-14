@@ -9,6 +9,10 @@ export default {
     state.staff = staff;
   },
 
+  [types.ADD_STAFF](state, staff) {
+    state.staffs.push(staff);
+  },
+
   [types.UPDATE_STAFF](state, staff) {
     const index = state.staffs.findIndex(item => item.id === staff.id);
     state.staffs[index] = Object.assign({}, staff);
