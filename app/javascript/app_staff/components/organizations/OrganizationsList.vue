@@ -22,6 +22,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
 import { QTable, QBtn, QTr, QTd } from 'quasar';
 
 export default {
@@ -61,13 +62,18 @@ export default {
   },
 
   methods: {
+    ...mapActions({
+      destroy: 'organizations/destroy',
+    }),
+
     selectedLabel() {
       const length = this.selected.length;
       return length === 0 ? '' : `${length} record${length > 1 ? 's' : ''} selected of ${this.items.length}`;
     },
 
     onDelete() {
-      this.$emit('organizations-deleted', this.selected.map(item => item.id));
+      this.selected.forEach(item => this.destroy(item));
+      this.selected = [];
     },
   },
 };

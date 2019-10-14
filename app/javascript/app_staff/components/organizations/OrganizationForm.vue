@@ -49,6 +49,7 @@
 
 <script>
 import Api from 'staffApi';
+import { mapActions } from 'vuex';
 import { QForm, QInput, QSelect } from 'quasar';
 
 const MINIMUM_LENGTH = 5;
@@ -93,9 +94,12 @@ export default {
   },
 
   methods: {
+    ...mapActions({
+      createOrganization: 'organizations/create',
+    }),
+
     onSubmit() {
-      Api.organizations.create(this.form).then(data => {
-        this.onCreated(data);
+      this.createOrganization(this.form).then(() => {
         this.onReset();
       }).catch(error => {
         const errors = error.response.data.errors;
@@ -106,10 +110,6 @@ export default {
     onReset() {
       this.form = {};
       this.$refs.organizationForm.resetValidation();
-    },
-
-    onCreated(organization) {
-      this.$emit('organization-created', organization);
     },
 
     isNumber(value) {
