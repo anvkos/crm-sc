@@ -9,7 +9,7 @@
       v-model="form.client_id"
       dense
       outlined
-      :options="clients"
+      :options="clientFiltered"
       option-value="id"
       option-label="fullname"
       emit-value
@@ -53,7 +53,13 @@ export default {
   computed: {
     ...mapGetters({
       clients: 'clients/clients',
+      organizationClients: 'organizations/organizationClients',
     }),
+
+    clientFiltered() {
+      const excludeClientIds = this.organizationClients.map(item => item.id);
+      return this.clients.filter(client => excludeClientIds.indexOf(client.id) === -1);
+    },
   },
 
   created() {
