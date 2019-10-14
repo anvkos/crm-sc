@@ -1,4 +1,6 @@
 class Staffs::OrganizationsController < Staffs::BaseController
+  before_action :set_organization, only: %i[show update]
+
   def index
     @organizations = Organization.all
     render json: OrganizationSerializer.new(@organizations)
@@ -8,6 +10,18 @@ class Staffs::OrganizationsController < Staffs::BaseController
     @organization = Organization.create(organization_params)
     if @organization.persisted?
       render json: OrganizationSerializer.new(@organization), status: :created
+    else
+      respond_with_validation_error(@organization)
+    end
+  end
+
+  def show
+    render json: OrganizationSerializer.new(@organization)
+  end
+
+  def update
+    if @organization.update(organization_params)
+      render json: OrganizationSerializer.new(@organization)
     else
       respond_with_validation_error(@organization)
     end
@@ -28,5 +42,9 @@ class Staffs::OrganizationsController < Staffs::BaseController
       :inn,
       :ogrn
     )
+  end
+
+  def set_organization
+    @organization = Organization.find(params[:id])
   end
 end

@@ -15,7 +15,7 @@ Rails.application.routes.draw do
         get :organizations, on: :member, to: 'clients_organizations#organizations'
         post :organizations, on: :member, to: 'clients_organizations#add_organization'
       end
-      resources :organizations do
+      resources :organizations, only: %i[index create show update destroy] do
         get :clients, on: :member, to: 'clients_organizations#clients'
         post :clients, on: :member, to: 'clients_organizations#add_client'
       end

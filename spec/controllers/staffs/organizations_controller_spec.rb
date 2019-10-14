@@ -116,4 +116,86 @@ RSpec.describe Staffs::OrganizationsController, type: :controller do
       end
     end
   end
+
+  describe 'GET #show' do
+    let!(:organization) { create(:organization) }
+
+    context 'when user authenticated' do
+      sign_in_staff
+
+      before { get :show, params: { id: organization.id, format: :json } }
+
+      it 'returns http success' do
+        expect(response).to have_http_status(:success)
+      end
+
+      it 'returns organization json schema' do
+        expect(response).to match_response_schema('organizations/organization')
+      end
+    end
+
+    context 'when user is not unauthorized' do
+      it 'returns 401 status code' do
+        get :show, params: { id: organization.id, format: :json }
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+  end
+
+  describe 'PATCH #update' do
+    let!(:organization) { create(:organization) }
+    let(:update_params) do
+      {
+        name: 'Updated Company Ltd.',
+        kind: 'ЮЛ',
+        inn: 1_222_333_44,
+        ogrn: 11_333_555_777
+      }
+    end
+
+    context 'when user authenticated' do
+      sign_in_staff
+
+      before { patch :update, params: { id: organization.id, organization: update_params, format: :json } }
+
+      context 'with valid attributes' do
+        it 'returns http success' do
+          expect(response).to have_http_status(:success)
+        end
+
+        %i[name kind inn ogrn].each do |attr|
+          it "change organization :#{attr} attribute" do
+            expect(organization.reload.send(attr)).to eq update_params[attr]
+          end
+        end
+
+        it 'returns organization json schema' do
+          expect(response).to match_response_schema('organizations/organization')
+        end
+      end
+
+      context 'with invalid attributes' do
+        let(:invalid_params) { attributes_for(:invalid_organization) }
+
+        before { patch :update, params: { id: organization.id, organization: invalid_params, format: :json } }
+
+        it 'returns 422 status code' do
+          expect(response).to have_http_status(:unprocessable_entity)
+        end
+
+        %i[name kind inn ogrn].each do |attr|
+          it "does not change organization :#{attr} attribute" do
+            expect(organization.reload.send(attr)).not_to eq invalid_params[attr]
+          end
+        end
+      end
+    end
+
+    context 'when user is not unauthorized' do
+      it 'returns 401 status code' do
+        patch :update, params: { id: organization.id, organization: update_params, format: :json }
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+  end
 end
