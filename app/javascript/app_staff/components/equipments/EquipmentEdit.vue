@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import Api from 'staffApi';
+import { mapGetters, mapActions } from 'vuex';
 import AppModal from 'staffApp/components/AppModal';
 import EquipmentForm from 'staffApp/components/equipments/EquipmentForm';
 
@@ -15,32 +15,28 @@ export default {
     EquipmentForm,
   },
 
-  data() {
-    return {
-      equipment: null,
-    };
-  },
-
   computed: {
+    ...mapGetters({
+      equipment: 'equipments/equipment',
+    }),
+
     id() {
       return this.$route.params.id;
     }
   },
 
   created() {
-    this.fetchEquipment();
+    this.fetchEquipment(this.id);
   },
 
   methods: {
-    fetchEquipment() {
-      Api.equipments.fetch(this.id).then(data => {
-        this.equipment = data;
-      });
-    },
+    ...mapActions({
+      fetchEquipment: 'equipments/fetchSingle',
+    }),
 
     onEquipmentUpdated() {
-      this.$router.go(-1);
-    }
+      this.$router.push({ name: 'equipments.index' });
+    },
   },
 };
 </script>

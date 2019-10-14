@@ -5,6 +5,7 @@ import getters from './getters';
 import mutations from './mutations';
 import actions from './actions';
 import clients from './clients';
+import equipments from './equipments';
 import organizations from './organizations';
 import staffs from './staffs';
 
@@ -20,6 +21,7 @@ export default new Vuex.Store({
 
   modules: {
     clients,
+    equipments,
     organizations,
     staffs,
   },

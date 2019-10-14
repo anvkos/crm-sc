@@ -59,7 +59,7 @@
 </template>
 
 <script>
-import Api from 'staffApi';
+import { mapGetters, mapActions } from 'vuex';
 import { QForm, QInput, QSelect } from 'quasar';
 import { validator, validatorErrors, VALIDATION_ERRORS } from 'staffApp/mixins/validator';
 
@@ -81,8 +81,6 @@ export default {
   data() {
     return {
       form: {},
-      types: [],
-      organizations: [],
       rules: {
         name: [
           value => !!value || VALIDATION_ERRORS.required,
@@ -98,6 +96,11 @@ export default {
   },
 
   computed: {
+    ...mapGetters({
+      types: 'equipments/types',
+      organizations: 'organizations/organizations',
+    }),
+
     editing() {
       return !!this.equipment;
     }
@@ -106,10 +109,17 @@ export default {
   created() {
     this.fetchTypes();
     this.setDataForm(this.equipment);
-    this.fetchOrganization();
+    this.fetchOrganizations();
   },
 
   methods: {
+    ...mapActions({
+      fetchTypes: 'equipments/fetchTypes',
+      createEquipment: 'equipments/create',
+      updateEquipment: 'equipments/update',
+      fetchOrganizations: 'organizations/fetchAll',
+    }),
+
     onSubmit() {
       if (this.editing == true) {
         this.update();
@@ -123,28 +133,8 @@ export default {
       this.$refs.equipmentForm.resetValidation();
     },
 
-    onCreated(equipment) {
-      this.$emit('equipment-created', equipment);
-    },
-
     onUpdated(equipment) {
       this.$emit('equipment-updated', equipment);
-    },
-
-    fetchTypes() {
-      Api.equipments.fetchTypes().then(data => {
-        this.types = data;
-      });
-    },
-
-    fetchOrganization() {
-      Api.organizations.fetchAll().then(data => {
-        data.forEach(item => this.organizations.push({
-            id: item.id,
-            name: item.name,
-          })
-        );
-      });
     },
 
     setDataForm(equipment) {
@@ -155,8 +145,7 @@ export default {
     },
 
     create() {
-      Api.equipments.create(this.form).then(data => {
-        this.onCreated(data);
+      this.createEquipment(this.form).then(() => {
         this.onReset();
       }).catch(error => {
         const errors = error.response.data.errors;
@@ -165,9 +154,8 @@ export default {
     },
 
     update() {
-      const { id } = this.equipment;
-      Api.equipments.update(id, this.form).then(data => {
-        this.onUpdated(data);
+      this.updateEquipment({ id: this.equipment.id, params: this.form}).then(() => {
+        this.onUpdated();
         this.onReset();
       }).catch(error => {
         const errors = error.response.data.errors;

@@ -6,12 +6,13 @@
       div.col-8
         equipment-list(:items="equipmentItems")
       div.col-4
-        equipment-form(@equipment-created="onEquipmentCreated")
+        equipment-form
     router-view
 </template>
 
 <script>
 import { QPage } from 'quasar';
+import { mapGetters, mapActions } from 'vuex';
 import EquipmentList from 'staffApp/components/equipments/EquipmentList';
 import EquipmentForm from 'staffApp/components/equipments/EquipmentForm';
 import Api from 'staffApi';
@@ -22,26 +23,20 @@ export default {
     EquipmentList,
   },
 
-  data() {
-    return {
-      equipmentItems: [],
-    };
+  computed: {
+    ...mapGetters({
+      equipmentItems: 'equipments/equipments',
+    }),
   },
 
-created() {
+  created() {
     this.fetchAll();
   },
 
   methods: {
-    fetchAll() {
-      Api.equipments.fetchAll().then(data => {
-        this.equipmentItems = data;
-      });
-    },
-
-    onEquipmentCreated(equipment) {
-      this.equipmentItems.push(equipment);
-    },
+    ...mapActions({
+      fetchAll: 'equipments/fetchAll',
+    }),
   },
 };
 </script>
